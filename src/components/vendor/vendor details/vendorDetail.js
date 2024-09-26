@@ -19,7 +19,7 @@ const VendorDetail = () => {
     const getVendorById = async () => {
         setLoading(true);
         try {
-            const res = await fetch(`http://localhost:8000/api/vendor/details/${id}`, {
+            const res = await fetch(`${url}/api/vendor/details/${id}`, {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' }
             });
@@ -42,7 +42,7 @@ const VendorDetail = () => {
 
     const approvedByPurchase = async () => {
         try {
-            const res = await fetch(`http://localhost:8000/api/vendor/purchase/${id}`, {
+            const res = await fetch(`${url}/api/vendor/purchase/${id}`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
