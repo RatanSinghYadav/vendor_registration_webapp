@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import '../../assets/styles/sendInvite.css';
 import { Button, Col, Input, Row, Space, message } from "antd";
 import Search from "antd/es/input/Search";
+import { IoMdMail } from "react-icons/io";
 
 const SendInvite = ({ onInviteSend }) => {
     const [vendorName, setVendorName] = useState('');
@@ -42,8 +43,8 @@ const SendInvite = ({ onInviteSend }) => {
             console.log(getRes)
             if (getRes) {
                 message.success("Invite sent successfully!"); // Success message
-                setVendorName('');
-                setVendorEmail('');
+                // setVendorName('');
+                // setVendorEmail('');
                 onInviteSend(); // Refresh vendor list
             } else {
                 message.error("Failed to send invite. Please try again.");
@@ -67,7 +68,7 @@ const SendInvite = ({ onInviteSend }) => {
                 <div className="d-flex gap-3">
                     <Input value={vendorName} onChange={(e) => setVendorName(e.target.value)} placeholder="vendor name" style={{ width: 200, }} />
                     <Input value={vendorEmail} type='mail' onChange={(e) => setVendorEmail(e.target.value)} placeholder="vendor email" style={{ width: 200, }} />
-                    <Button onClick={sendInvite} loading={loader} type="primary">Invite</Button>
+                    <Button onClick={sendInvite} loading={loader} type="primary">Invite <IoMdMail/></Button>
                 </div>
             </Row>
         </div>

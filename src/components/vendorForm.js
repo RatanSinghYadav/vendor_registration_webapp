@@ -2,11 +2,11 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 
 const VendorForm = () => {
-    const { email } = useParams();
+    const { id } = useParams();
 
     const handleSubmit = async (e) => {
         try {
-            const res = await fetch(`http://localhost:8000/api/vendors/update/${email}`, {
+            const res = await fetch(`http://localhost:8000/api/vendors/form/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
