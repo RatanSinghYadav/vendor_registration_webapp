@@ -1,0 +1,16 @@
+.companyDetail_01{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px;
+}
+
+h6{
+    color: #334155;
+    font-size: 14px;
+}
+
+p{
+    color: rgb(100, 116, 139);
+    font-size: 14px;
+}

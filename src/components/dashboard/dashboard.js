@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import '../../assets/styles/sendInvite.css';
-import { Table, message } from "antd";
+import { Button, Flex, Space, Table, Tag, message } from "antd";
 import SendInvite from './sendInvite';
+import '../../App.css';
+import { useNavigate, useParams } from 'react-router-dom';
+import Status from './status';
+import { FileTextOutlined, DeleteOutlined } from '@ant-design/icons';
 
-const columns = (onDelete) => [
+const columns = (onDelete, onDetail) => [
     {
         title: 'Sr.',
-        render: (text, record, index) => index + 1,
+        render: (text, record, index) => record._id.slice(0, 10),
         key: 'index',
     },
     {
@@ -21,14 +25,27 @@ const columns = (onDelete) => [
     },
     {
         title: 'Status',
-        dataIndex: 'status',
+        // dataIndex: 'status',
         key: 'status',
+        render: (item, index) => {
+            return (
+                <>
+                    <Status status={item.status} />
+                </>
+            )
+        }
     },
     {
         title: 'Action',
         key: 'action',
         render: (text, record) => (
-            <a onClick={() => onDelete(record.id)}>Delete</a>
+            <>
+                <Space>
+                    <Tag onClick={() => onDelete(record._id)} color='red' style={{ cursor: 'pointer' }}><DeleteOutlined style={{ fontSize: '12px', marginBottom: '4px', marginRight: '4px' }} /> Delete</Tag>
+                    <Tag onClick={() => onDetail(record._id)} color='blue' style={{ cursor: 'pointer' }}> <FileTextOutlined style={{ fontSize: '12px', marginBottom: '4px', marginRight: '4px' }} /> Detail</Tag>
+                </Space>
+            </>
+
         ),
     }
 ];
@@ -48,6 +65,7 @@ const Dashboard = () => {
             });
             const getData = await response.json();
             setVendors(getData.vendor);
+            console.log(getData);
         } catch (error) {
             console.error("Error fetching vendors", error);
         }
@@ -60,14 +78,14 @@ const Dashboard = () => {
 
     // Handle invite send and refresh the vendor list
     const handleInviteSend = () => {
-        message.success("Invite sent successfully!");
         fetchVendors();  // Refresh data
     };
 
     // Handle delete vendor
     const handleDelete = async (id) => {
+        console.log(id)
         try {
-            await fetch(`http://localhost:8000/api/vendors/${id}`, {
+            await fetch(`http://localhost:8000/api/vendor/delete/${id}`, {
                 method: "DELETE",
                 headers: {
                     'Content-Type': 'application/json',
@@ -81,14 +99,20 @@ const Dashboard = () => {
         }
     };
 
+    const navigate = useNavigate();
+
+    const getVendorById = (id) => {
+        navigate(`/vendor/details/${id}`)
+    }
+
     return (
         <>
             <SendInvite onInviteSend={handleInviteSend} />
             <Table
-                columns={columns(handleDelete)}
+                columns={columns(handleDelete, getVendorById)}
                 dataSource={vendors.map((vendor) => ({ ...vendor, key: vendor.id }))}
                 bordered
-                loading={loading}  // Add loading prop
+                loading={loading}
             />
         </>
     );

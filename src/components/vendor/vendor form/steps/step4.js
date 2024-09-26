@@ -5,19 +5,31 @@ import { PlusOutlined } from "@ant-design/icons";
 const fileUploadLimit = 1 * 1024 * 1024; // 1 MB in bytes
 
 const validateFile = (file) => {
-    const isValidType = file.type === "application/pdf" || file.type.startsWith("image/");
+    const isValidType = file.type === 'image/jpg' || file.type === 'image/jpeg' || file.type === 'image/png';
     const isValidSize = file.size <= fileUploadLimit;
     if (!isValidType) {
-        message.error("Only PDF and image files are allowed!");
+        message.error("Only image files are allowed!");
+        return false;
     }
     if (!isValidSize) {
         message.error("File size must be less than 1MB!");
+        return false;
     }
-    return isValidType && isValidSize;
+    return false ;
 };
 
-const Step4 = () => {
+const Step4 = ({ form }) => {
     const normFile = (e) => (Array.isArray(e) ? e : e?.fileList);
+    // Manually set file values to the form state
+    const handleFileChange = (info, fieldName) => {
+        const fileList = info.fileList.slice(-1); // Only keep last uploaded file
+        console.log(fieldName, fileList)
+        if (form) {
+            form.setFieldsValue({ [fieldName]: fileList });
+        } else {
+            console.error("Form is not defined");
+        }
+    };
 
     return (
         <>
@@ -28,15 +40,17 @@ const Step4 = () => {
                 <Flex className="d-flex gap-4 mt-3 mx-3" style={{ flexWrap: "wrap" }}>
                     <Form.Item
                         label="39. Copy of Incorporation Certificate"
+                        name='incorporationCertificateFile'
                         valuePropName="fileList"
                         getValueFromEvent={normFile}
-                        rules={[{ required: true, message: 'Incorporation Certificate required!' }]}
+                    // rules={[{ required: true, message: 'Incorporation Certificate required!' }]}
                     >
                         <Upload
-                            action="/upload.do"
+
                             listType="picture-card"
                             beforeUpload={validateFile}
                             maxCount={1}
+                            onChange={(info) => handleFileChange(info, "incorporationCertificateFile")}
                         >
                             <button
                                 style={{
@@ -51,15 +65,18 @@ const Step4 = () => {
                         </Upload>
                     </Form.Item>
                     <Form.Item
-                        label="43. Bank Account Cancel Cheque"
+                        label="40. Bank Account Cancel Cheque"
+                        name='bankAccountCancelChequeFile'
                         valuePropName="fileList"
                         getValueFromEvent={normFile}
+                        rules={[{ required: true, message: 'Incorporation Certificate required!' }]}
                     >
                         <Upload
-                            action="/upload.do"
+
                             listType="picture-card"
                             beforeUpload={validateFile}
                             maxCount={1}
+                            onChange={(info) => handleFileChange(info, "bankAccountCancelChequeFile")}
                         >
                             <button
                                 style={{
@@ -75,15 +92,18 @@ const Step4 = () => {
                     </Form.Item>
 
                     <Form.Item
-                        label="44. GST Registration Certificate"
+                        label="41. GST Registration Certificate"
+                        name="gstRegistrationCertificateFile"
                         valuePropName="fileList"
                         getValueFromEvent={normFile}
+                        rules={[{ required: true, message: 'Incorporation Certificate required!' }]}
                     >
                         <Upload
-                            action="/upload.do"
+
                             listType="picture-card"
                             beforeUpload={validateFile}
                             maxCount={1}
+                            onChange={(info) => handleFileChange(info, "gstRegistrationCertificateFile")}
                         >
                             <button
                                 style={{
@@ -99,14 +119,16 @@ const Step4 = () => {
                     </Form.Item>
                     <Form.Item
                         label="42. Principal Business Proof"
+                        name="principalBusinessProofFile"
                         valuePropName="fileList"
                         getValueFromEvent={normFile}
                     >
                         <Upload
-                            action="/upload.do"
+
                             listType="picture-card"
                             beforeUpload={validateFile}
                             maxCount={1}
+                            onChange={(info) => handleFileChange(info, "principalBusinessProofFile")}
                         >
                             <button
                                 style={{
@@ -124,15 +146,18 @@ const Step4 = () => {
                 <Flex className="d-flex gap-4 mt-3 mx-3" style={{ flexWrap: "wrap" }}>
 
                     <Form.Item
-                        label="40. MSME Certificate"
+                        label="43. MSME Certificate"
+                        name='msmeCertificateFile'
                         valuePropName="fileList"
                         getValueFromEvent={normFile}
+                        rules={[{ required: true, message: 'Incorporation Certificate required!' }]}
                     >
                         <Upload
-                            action="/upload.do"
+
                             listType="picture-card"
                             beforeUpload={validateFile}
                             maxCount={1}
+                            onChange={(info) => handleFileChange(info, "msmeCertificateFile")}
                         >
                             <button
                                 style={{
@@ -148,15 +173,18 @@ const Step4 = () => {
                     </Form.Item>
 
                     <Form.Item
-                        label="41. PAN"
+                        label="44. Upload PAN"
+                        name="panFile"
                         valuePropName="fileList"
                         getValueFromEvent={normFile}
+                        rules={[{ required: true, message: 'Incorporation Certificate required!' }]}
                     >
                         <Upload
-                            action="/upload.do"
+
                             listType="picture-card"
                             beforeUpload={validateFile}
                             maxCount={1}
+                            onChange={(info) => handleFileChange(info, "panFile")}
                         >
                             <button
                                 style={{
