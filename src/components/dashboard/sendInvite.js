@@ -3,6 +3,8 @@ import '../../assets/styles/sendInvite.css';
 import { Button, Col, Input, Row, Space, message } from "antd";
 import Search from "antd/es/input/Search";
 import { IoMdMail } from "react-icons/io";
+import { url } from "../../utils/constent";
+
 
 const SendInvite = ({ onInviteSend }) => {
     const [vendorName, setVendorName] = useState('');
@@ -29,7 +31,7 @@ const SendInvite = ({ onInviteSend }) => {
 
         setLoader(true);
         try {
-            const res = await fetch('http://localhost:8000/api/vendors/add', {
+            const res = await fetch(`${url}/api/vendors/add`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

@@ -5,7 +5,7 @@ import Step2 from "./steps/step2";
 import Step3 from "./steps/step3";
 import Step4 from "./steps/step4";
 import { useParams } from "react-router-dom";
-
+import { url } from "../../../utils/constent";
 
 const VendorStepForm = () => {
     const { token } = theme.useToken();
@@ -80,7 +80,7 @@ const VendorStepForm = () => {
             console.log(formDataToSend);  // Yeh sari fields aur files ko console mai log karega
 
             // Make the API request
-            const response = await fetch(`http://localhost:8000/api/vendors/form/${id}`, {
+            const response = await fetch(`${url}/api/vendors/form/${id}`, {
                 method: 'POST',
                 body: formDataToSend,
             });

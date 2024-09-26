@@ -6,6 +6,8 @@ import '../../App.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import Status from './status';
 import { FileTextOutlined, DeleteOutlined } from '@ant-design/icons';
+import { url } from '../../utils/constent';
+
 
 const columns = (onDelete, onDetail) => [
     {
@@ -57,7 +59,7 @@ const Dashboard = () => {
     const fetchVendors = async () => {
         setLoading(true);  // Set loading state
         try {
-            const response = await fetch('http://localhost:8000/api/vendors', {
+            const response = await fetch(`${url}/api/vendors`, {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
@@ -85,7 +87,7 @@ const Dashboard = () => {
     const handleDelete = async (id) => {
         console.log(id)
         try {
-            await fetch(`http://localhost:8000/api/vendor/delete/${id}`, {
+            await fetch(`${url}/api/vendor/delete/${id}`, {
                 method: "DELETE",
                 headers: {
                     'Content-Type': 'application/json',
