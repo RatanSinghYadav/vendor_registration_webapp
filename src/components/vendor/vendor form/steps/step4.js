@@ -5,17 +5,18 @@ import { PlusOutlined } from "@ant-design/icons";
 const fileUploadLimit = 1 * 1024 * 1024; // 1 MB in bytes
 
 const validateFile = (file) => {
-    const isValidType = file.type === 'image/jpg' || file.type === 'image/jpeg' || file.type === 'image/png';
+    console.log(file)
+    const isValidType = file.type === 'image/jpg' || file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'application/pdf';
     const isValidSize = file.size <= fileUploadLimit;
     if (!isValidType) {
-        message.error("Only image files are allowed!");
+        message.error("Only image and pdf files are allowed!");
         return false;
     }
     if (!isValidSize) {
         message.error("File size must be less than 1MB!");
         return false;
     }
-    return false ;
+    return false;
 };
 
 const Step4 = ({ form }) => {

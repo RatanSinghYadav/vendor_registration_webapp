@@ -10,7 +10,7 @@ const Status = ({ status }) => {
         <>
 
             <Tag color={status === "pending" ?
-                "cyan"
+                "purple"
                 : status === "complete" ?
                     "blue"
                     : status === 'approved' ?
