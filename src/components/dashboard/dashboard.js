@@ -26,18 +26,6 @@ const columns = (onDelete, onDetail) => [
         key: 'email',
     },
     {
-        title: 'Status',
-        // dataIndex: 'status',
-        key: 'status',
-        render: (item, index) => {
-            return (
-                <>
-                    <Status status={item.status} />
-                </>
-            )
-        }
-    },
-    {
         title: 'Action',
         key: 'action',
         render: (text, record) => (
@@ -49,7 +37,45 @@ const columns = (onDelete, onDetail) => [
             </>
 
         ),
-    }
+    },
+    {
+        title: 'Created At',
+        // dataIndex: 'createdAt',
+        key: 'createdAt',
+        render: (item, index) => {
+            return (
+                <>
+                    <span>{new Date(item.createdAt).toLocaleString()}</span>
+                </>
+            )
+        }
+
+    },
+    {
+        title: 'Updated At',
+        // dataIndex: 'createdAt',
+        key: 'updatedAt',
+        render: (item, index) => {
+            return (
+                <>
+                    <span>{new Date(item.updatedAt).toLocaleString()}</span>
+                </>
+            )
+        }
+
+    },
+    {
+        title: 'Status',
+        // dataIndex: 'status',
+        key: 'status',
+        render: (item, index) => {
+            return (
+                <>
+                    <Status status={item.status} />
+                </>
+            )
+        }
+    },
 ];
 
 const Dashboard = () => {
