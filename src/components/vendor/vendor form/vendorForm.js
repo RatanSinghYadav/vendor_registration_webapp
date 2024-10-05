@@ -19,11 +19,11 @@ const VendorStepForm = () => {
     const steps = [
         {
             title: "Company Profile",
-            content: <Step1 />,
+            content: <Step1 form={form} />,
         },
         {
             title: "GST & Bank Detail",
-            content: <Step2 />,
+            content: <Step2 form={form} />,
         },
         // {
         //     title: "GST & Bank Detail",
@@ -116,28 +116,30 @@ const VendorStepForm = () => {
 
     return (
         <>
-            <Form form={form} onFinish={submit} layout="vertical">
-                <Steps current={current} items={items} />
-                <div style={contentStyle}  >
-                    {steps[current].content}
-                </div>
-                <div style={{ marginTop: 24 }}>
-                    {current > 0 && (
-                        <Button style={{ margin: "0 8px" }} onClick={prev}>
-                            Previous
-                        </Button>
-                    )}
-                    {current === steps.length - 1 ? (
-                        <Button loading={loading} type="primary" htmlType="submit">
-                            Done
-                        </Button>
-                    ) : (
-                        <Button type="primary" onClick={next}>
-                            Next
-                        </Button>
-                    )}
-                </div>
-            </Form>
+            <div className="container mt-3">
+                <Form form={form} onFinish={submit} layout="vertical">
+                    <Steps current={current} items={items} />
+                    <div style={contentStyle}  >
+                        {steps[current].content}
+                    </div>
+                    <div style={{ marginTop: 24 }}>
+                        {current > 0 && (
+                            <Button style={{ margin: "0 8px" }} onClick={prev}>
+                                Previous
+                            </Button>
+                        )}
+                        {current === steps.length - 1 ? (
+                            <Button loading={loading} type="primary" htmlType="submit">
+                                Done
+                            </Button>
+                        ) : (
+                            <Button type="primary" onClick={next}>
+                                Next
+                            </Button>
+                        )}
+                    </div>
+                </Form>
+            </div>
         </>
     );
 };

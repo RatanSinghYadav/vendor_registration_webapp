@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Checkbox, Divider, Flex, Form, Input, Select } from "antd";
 const options = [
     { value: 'Sole Proprietorship', label: 'Sole Proprietorship' },
@@ -7,7 +7,7 @@ const options = [
     { value: 'Public Sector', label: 'Public Sector' },
 ];
 
-const Step2 = () => {
+const Step2 = ({ form }) => {
     return (
         <>
             <div>
@@ -24,18 +24,34 @@ const Step2 = () => {
                         <Form.Item
                             label='30. Registerd under MSME'
                             name='registeredMSME'
-                        rules={[{ required: true, message: 'MSME required!' }]}
+                        // rules={[{ required: true, message: 'MSME required!' }]}
                         >
                             <Input placeholder="MSME Number" />
                         </Form.Item>
                         <Form.Item
                             label='31. PAN Number'
-                            placeholder='PAN'
                             name='pan'
-                        rules={[{ required: true, message: 'PAN required!' }]}
+                            rules={[
+                                { required: true, message: 'PAN required!' },
+                                {
+                                    validator: (_, value) => {
+                                        if (!value || /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(value)) {
+                                            return Promise.resolve();
+                                        }
+                                        return Promise.reject(new Error('Please enter a valid 10-digit PAN number!'));
+                                    }
+                                }
+                            ]}
                         >
-                            <Input placeholder="PAN Number" />
+                            <Input
+                                placeholder="PAN Number"
+                                onChange={(e) => {
+                                    const upperCaseValue = e.target.value.toUpperCase();
+                                    form.setFieldsValue({ pan: upperCaseValue });
+                                }}
+                            />
                         </Form.Item>
+
                         <Form.Item
                             label='32. Principal Business Proof'
                             name='businessAddressProof'
@@ -62,9 +78,19 @@ const Step2 = () => {
                             label='34. GST Registration Number'
                             placeholder='Select'
                             name='gstCertificate'
-                        rules={[{ required: true, message: ' GST Certificate required!' }]}
+                            rules={[{ required: true, message: ' GST Certificate required!' }, {
+                                validator: (_, value) => {
+                                    if (!value || (/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[0-1]{1}[A-Z]{1}[0-9]{1}$/).test(value)) {
+                                        return Promise.resolve();
+                                    }
+                                    return Promise.reject(new Error("Please enter a valid 15-digit GST number!"))
+                                }
+                            }]}
                         >
-                            <Input placeholder="GST Number"/>
+                            <Input placeholder="GST Number" onChange={(e) => {
+                                const upperCaseValue = (e.target.value).toUpperCase();
+                                form.setFieldsValue({ gstCertificate: upperCaseValue })
+                            }} />
                         </Form.Item>
                     </Flex>
                     <Divider orientation="left" orientationMargin={'20'}>Bank Details</Divider>
@@ -72,7 +98,7 @@ const Step2 = () => {
                         <Form.Item
                             label='35. Bank Name'
                             name='bankName'
-                        rules={[{ required: true, message: 'Bank Name required!' }]}
+                            rules={[{ required: true, message: 'Bank Name required!' }]}
                         >
                             <Input
                                 placeholder="Bank Name"
@@ -81,29 +107,41 @@ const Step2 = () => {
                         <Form.Item
                             label='36. Name of Account'
                             name='accountName'
-                        rules={[{ required: true, message: 'Account Name required!' }]}
+                            rules={[{ required: true, message: 'Account Name required!' }]}
                         >
-                            <Input
-                                placeholder="Name of Account"
-                            />
+                            <Input placeholder="Name of Account" />
                         </Form.Item>
                         <Form.Item
                             label='37. Account Number'
                             name='accountNumber'
-                        rules={[{ required: true, message: 'Account Number required!' }]}
+                            rules={[{ required: true, message: 'Account Number required!' }]}
                         >
-                            <Input
-                                placeholder="Account Number"
-                            />
+                            <Input placeholder="Account Number" />
                         </Form.Item>
                         <Form.Item
-                            label='38. Bank IFSC Code'
-                            name='bankIFSC'
-                        rules={[{ required: true, message: 'IFSC Code required!' }]}
+                            label='38. Confirm Account Number'
+                            name='confirmAccountNumber'
+                            dependencies={['accountNumber']}  
+                            rules={[
+                                { required: true, message: 'Confirm Account Number required!' },
+                                ({ getFieldValue }) => ({
+                                    validator(_, value) {
+                                        if (!value || getFieldValue('accountNumber') === value) {
+                                            return Promise.resolve();  
+                                        }
+                                        return Promise.reject(new Error('Account numbers do not match!'));
+                                    },
+                                }),
+                            ]}
                         >
-                            <Input
-                                placeholder="IFSC Code"
-                            />
+                            <Input placeholder="Confirm Account Number" />
+                        </Form.Item>
+                        <Form.Item
+                            label='39. Bank IFSC Code'
+                            name='bankIFSC'
+                            rules={[{ required: true, message: 'IFSC Code required!' }]}
+                        >
+                            <Input placeholder="IFSC Code" />
                         </Form.Item>
                     </Flex>
                 </div>
@@ -112,9 +150,9 @@ const Step2 = () => {
                 <Divider orientation="left" orientationMargin={'20'}>Compnay other Details</Divider>
                 <Flex className="d-flex gap-5 mt-3 mx-3" style={{ flexWrap: "wrap" }}>
                     <Form.Item
-                        label="25. Type of the Firm"
+                        label="40. Type of the Firm"
                         name='firmType'
-                    rules={[{ required: true, message: 'Please select the type of firm!' }]}
+                        rules={[{ required: true, message: 'Please select the type of firm!' }]}
                     >
                         <Select
                             placeholder='Select a firm type'
@@ -126,7 +164,7 @@ const Step2 = () => {
                         />
                     </Form.Item>
                     <Form.Item
-                        label="26. Whether the applicant has any sister concern registerd in this organization, if yes please provide Details"
+                        label="41. Whether the applicant has any sister concern registerd in this organization, if yes please provide Details"
                         name="sisterConcernDetails"
                     // rules={[{ required: true, message: "required!" }]}
                     >
@@ -139,7 +177,7 @@ const Step2 = () => {
                 </Flex>
                 <Flex className="d-flex gap-5 mt-3 mx-3" style={{ flexWrap: "wrap" }}>
                     <Form.Item
-                        label="28. Do you have any friend/relative working as an employee in this organization, if yes provide details."
+                        label="42. Do you have any friend/relative working as an employee in this organization, if yes provide details."
                         name="otherUnitsDetails"
                     // rules={[{ required: true, message: "required!" }]}
                     >
@@ -150,7 +188,7 @@ const Step2 = () => {
                         />
                     </Form.Item>
                     <Form.Item
-                        label="27. Whether the applicant is having transaction with any other units of SLMG beverages, (Yes/No), mention the name of Unit."
+                        label="43. Whether the applicant is having transaction with any other units of SLMG beverages, (Yes/No), mention the name of Unit."
                         name="transactionWithOtherUnits"
                     // rules={[{ required: true, message: "required!" }]}
                     >
