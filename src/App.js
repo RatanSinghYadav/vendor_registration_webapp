@@ -12,13 +12,15 @@ const App = () => {
   return (
     <Router>
       <Routes>
+        {/* home */}
         <Route path='/' element={<Layout />}>
           <Route index exact element={<Dashboard />} />
         </Route>
-        <Route path='/vendor/form/:id' element={<Layout />}>
-          <Route index exact element={<VendorForm />} />
-        </Route>
-        <Route path='/vendor' element={<Layout />}>
+
+        {/* vendor form separate route */}
+        <Route path='/vendor/form/:id' element={<VendorForm />} />
+
+        <Route path='/vendor/form/' element={<Layout />}>
           <Route index exact element={<VendorForm />} />
         </Route>
         <Route path='/profile' element={<Layout />}>

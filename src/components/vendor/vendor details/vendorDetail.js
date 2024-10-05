@@ -5,12 +5,15 @@ import { IoMdAttach } from "react-icons/io";
 import { useParams } from 'react-router-dom';
 import '../../../assets/styles/vendorDetail.css';
 import { url } from '../../../utils/constent.js';
+import { CheckCircleFilled } from '@ant-design/icons';
 
 const VendorDetail = () => {
     const [vendor, setVendor] = useState([]);
     const [purchaseType, setPurchaseType] = useState('');
     const [purchaseCategory, setPurchaseCategory] = useState('');
     const [paymentTerms, setPaymentTerms] = useState('');
+    const [bankDetail, setBankDetail] = useState('');
+    const [approvedVendor, setApprovedVendor] = useState('');
     const [loading, setLoading] = useState(true);
 
     const { id } = useParams('');
@@ -32,6 +35,8 @@ const VendorDetail = () => {
             setPurchaseType(getData.vendor.purchaseType);
             setPurchaseCategory(getData.vendor.purchaseCategory);
             setPaymentTerms(getData.vendor.paymentTerms);
+            setBankDetail(getData.vendor.approveBankDetail)
+            setApprovedVendor(getData.vendor.vendorApproved);
         } catch (error) {
             message.error("Error to get vendor data");
         } finally {
@@ -56,20 +61,47 @@ const VendorDetail = () => {
 
             const getData = await res.json();
             console.log(getData);
-            message.success("Vendor Approved!")
+            message.success("Final Submit vendor Details!")
         } catch (error) {
             console.log("Error to approved vendor.", error);
             message.error("Error to approved vendor.");
         }
     }
 
+    const removeUnderline = {
+        textDecoration: 'none'
+    }
+
+
+    const approveBankDetail = async () => {
+        const res = await fetch(`${url}/api/vendor/purchase/bankDetailApproved/${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        const getRes = await res.json();
+        setBankDetail(getRes.vendor.approveBankDetail)
+        message.success("Bank Details Approved!");
+    }
+
+
+    const vendorApprovedById = async () => {
+        const res = await fetch(`${url}/api/vendor/purchase/approvedVendor/${id}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": 'application/json'
+            }
+        })
+        const getRes = await res.json();
+        setApprovedVendor(getRes.vendor.vendorApproved)
+        message.success("Vendor Details Approved!");
+    }
+
+
     useEffect(() => {
         getVendorById();
-    }, [])
-
-    const removeUnderline = {
-        textDecoration:'none'
-    }
+    }, [bankDetail, approvedVendor])
 
     return (
         <>
@@ -83,7 +115,7 @@ const VendorDetail = () => {
                             {/* line 1 */}
                             <Col span={6}>
                                 <h6>Vendor Code</h6>
-                                <p>{(vendor._id)?.slice(0, 12)}</p>
+                                <p>{(vendor._id)?.toUpperCase()}</p>
                             </Col>
                             <Col span={6}>
                                 <h6>Name of the Company</h6>
@@ -105,6 +137,10 @@ const VendorDetail = () => {
                             <Col span={6}>
                                 <h6>Current Business Years</h6>
                                 <p>{vendor.yearsInBusiness}</p>
+                            </Col>
+                            <Col span={6}>
+                                <h6>Work Space Area</h6>
+                                <p>{vendor.workspaceArea}</p>
                             </Col>
                         </Row>
                     </Card>
@@ -199,7 +235,24 @@ const VendorDetail = () => {
                     <Divider />
 
                     {/* Bank Details */}
-                    <Card title="Bank Details">
+                    <Card title="Bank Details" extra={
+                        bankDetail === 'pending' ?
+                            <>
+                                <Button onClick={approveBankDetail}><CheckCircleFilled /> Approve</Button>
+                            </>
+                            :
+                            <>
+                                <Button
+                                    color='success' style={{
+                                        color: "#10b981",
+                                        borderColor: "#10b981",
+                                        backgroundColor: '#ecfdf5',
+                                    }}
+                                >
+                                    <CheckCircleFilled style={{ color: '#10b981', border: '1px solid white' }} /> Approved
+                                </Button>
+                            </>
+                    }>
                         <Row gutter={[16, 16]}>
                             <Col span={6}>
                                 <h6>Bank Name <BankOutlined /></h6>
@@ -212,6 +265,10 @@ const VendorDetail = () => {
                             <Col span={6}>
                                 <h6>Account Number</h6>
                                 <p>{vendor.accountNumber}</p>
+                            </Col>
+                            <Col span={6}>
+                                <h6>Confirm Account Number</h6>
+                                <p>{vendor.confirmAccountNumber}</p>
                             </Col>
                             <Col span={6}>
                                 <h6>Bank IFSC Code</h6>
@@ -247,7 +304,24 @@ const VendorDetail = () => {
                     <Divider />
 
                     {/* Documents */}
-                    <Card title={<>Attachments  <IoMdAttach /></>}>
+                    <Card title={<>Attachments  <IoMdAttach /></>} extra={
+                        approvedVendor === 'pending' ?
+                            <>
+                                <Button onClick={vendorApprovedById}><CheckCircleFilled /> Approve</Button>
+                            </>
+                            :
+                            <>
+                                <Button
+                                    color='success' style={{
+                                        color: "#10b981",
+                                        borderColor: "#10b981",
+                                        backgroundColor: '#ecfdf5',
+                                    }}
+                                >
+                                    <CheckCircleFilled style={{ color: '#10b981', border: '1px solid white' }} /> Approved
+                                </Button>
+                            </>
+                    }>
                         <Divider orientation='left' orientationMargin={0} style={{ color: '#334155' }}>Upload Documents</Divider>
                         <Row gutter={[16, 16]}>
                             <Col span={6}>
@@ -281,37 +355,37 @@ const VendorDetail = () => {
                         <Row gutter={[16, 16]}>
                             <Col span={6}>
                                 <h6>Incorporation Certificate</h6>
-                                <Button type="primary" style={removeUnderline}  target="_blank" shape="round" icon={<EyeOutlined />} download href={`${url}/api/vendor/download/incorporationCertificateFile/${vendor._id}`}>
+                                <Button type="primary" disabled={vendor.incorporationCertificateFile ? false : true} style={removeUnderline} target="_blank" shape="round" icon={<EyeOutlined />} download href={`${url}/api/vendor/download/incorporationCertificateFile/${vendor._id}`}>
                                     Open
                                 </Button>
                             </Col>
                             <Col span={6}>
                                 <h6>Bank Account Cancel Cheque</h6>
-                                <Button type="primary" style={removeUnderline} target="_blank" shape="round" icon={<EyeOutlined />} download href={`${url}/api/vendor/download/bankAccountCancelChequeFile/${vendor._id}`}>
+                                <Button type="primary" disabled={vendor.bankAccountCancelChequeFile ? false : true} style={removeUnderline} target="_blank" shape="round" icon={<EyeOutlined />} download href={`${url}/api/vendor/download/bankAccountCancelChequeFile/${vendor._id}`}>
                                     Open
                                 </Button>
                             </Col>
                             <Col span={6}>
                                 <h6>GST Registration Certificate</h6>
-                                <Button type="primary" style={removeUnderline} target="_blank" shape="round" icon={<EyeOutlined />} download href={`${url}/api/vendor/download/gstRegistrationCertificateFile/${vendor._id}`}>
+                                <Button type="primary" disabled={vendor.gstRegistrationCertificateFile ? false : true} style={removeUnderline} target="_blank" shape="round" icon={<EyeOutlined />} download href={`${url}/api/vendor/download/gstRegistrationCertificateFile/${vendor._id}`}>
                                     Open
                                 </Button>
                             </Col>
                             <Col span={6}>
                                 <h6>Principal Business Proof</h6>
-                                <Button type="primary" style={removeUnderline} target="_blank" shape="round" icon={<EyeOutlined />} download href={`${url}/api/vendor/download/principalBusinessProofFile/${vendor._id}`}>
+                                <Button type="primary" disabled={vendor.principalBusinessProofFile ? false : true} style={removeUnderline} target="_blank" shape="round" icon={<EyeOutlined />} download href={`${url}/api/vendor/download/principalBusinessProofFile/${vendor._id}`}>
                                     Open
                                 </Button>
                             </Col>
                             <Col span={6}>
                                 <h6>MSME Certificate</h6>
-                                <Button type="primary" style={removeUnderline} target="_blank" shape="round" icon={<EyeOutlined />} download href={`${url}/api/vendor/download/msmeCertificateFile/${vendor._id}`}>
+                                <Button type="primary" disabled={vendor.msmeCertificateFile ? false : true} style={removeUnderline} target="_blank" shape="round" icon={<EyeOutlined />} download href={`${url}/api/vendor/download/msmeCertificateFile/${vendor._id}`}>
                                     Open
                                 </Button>
                             </Col>
                             <Col span={6}>
                                 <h6>PAN</h6>
-                                <Button type="primary" style={removeUnderline} target="_blank" shape="round" icon={<EyeOutlined />} download href={`${url}/api/vendor/download/panFile/${vendor._id}`}>
+                                <Button type="primary" disabled={vendor.panFile ? false : true} style={removeUnderline} target="_blank" shape="round" icon={<EyeOutlined />} download href={`${url}/api/vendor/download/panFile/${vendor._id}`}>
                                     Open
                                 </Button>
                             </Col>
@@ -337,7 +411,7 @@ const VendorDetail = () => {
                             </Col>
                             <div style={{ display: 'flex', alignItems: 'end', justifyContent: 'space-between' }}>
                                 <Col span={6}>
-                                    <Button onClick={approvedByPurchase} type='primary'>Add+</Button>
+                                    <Button onClick={approvedByPurchase} type='primary'>Final Submit</Button>
                                 </Col>
                             </div>
                         </Row>

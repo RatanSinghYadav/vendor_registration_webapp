@@ -69,7 +69,7 @@ const Sidebar = () => {
                         {
                             key: '/vendor',
                             icon: <ShopOutlined />,
-                            label: <Link to="/vendor" style={{ textDecoration: 'none' }}>Vendor Form</Link>,
+                            label: <Link to="/vendor/form" style={{ textDecoration: 'none' }}>Vendor Form</Link>,
                         },
                         {
                             key: '/vendor/details',
@@ -119,7 +119,7 @@ const Sidebar = () => {
                         <Space>
                             <Avatar size={40} style={{ backgroundColor: '#87d068', }}>R</Avatar>
                             <div>
-                                <Title level={5} style={{ margin: "20px 20px -25px 0px"}}>Rachit Ladhani</Title>
+                                <Title level={5} style={{ margin: "20px 20px -25px 0px"}}>Rakesh Agarwal</Title>
                                 <Text type="secondary">Admin</Text>
                             </div>
                         </Space>

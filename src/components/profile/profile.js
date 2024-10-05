@@ -12,7 +12,7 @@ const Profile = () => {
                 <Space>
                     <Avatar size={80} style={{ backgroundColor: '#87d068', fontSize:'3rem' }}>R</Avatar>
                     <div>
-                        <Title level={3} style={{ margin: 0 }}>Rachit Ladhani</Title>
+                        <Title level={3} style={{ margin: 0 }}>Rakesh Agarwal</Title>
                         <Text type="secondary">Admin</Text>
                     </div>
                 </Space>
@@ -22,10 +22,10 @@ const Profile = () => {
         >
             {/* User Details */}
             <Descriptions title="User Details" bordered column={2}>
-                <Descriptions.Item label="Name">Rachit Ladhani</Descriptions.Item>
-                <Descriptions.Item label="Phone Number">9897120375</Descriptions.Item>
-                <Descriptions.Item label="Email">ratan.120375@gmail.com</Descriptions.Item>
-                <Descriptions.Item label="Role">admin</Descriptions.Item>
+                <Descriptions.Item label="Name">Rakesh Agarwal</Descriptions.Item>
+                <Descriptions.Item label="Phone Number">98XXXXX375</Descriptions.Item>
+                <Descriptions.Item label="Email">jhon.xxxxx@gmail.com</Descriptions.Item>
+                <Descriptions.Item label="Role">Admin</Descriptions.Item>
             </Descriptions>
 
             {/* Payment Options */}
@@ -39,7 +39,7 @@ const Profile = () => {
 
             <Descriptions title="Other Details" bordered column={2} style={{ marginTop: '24px' }}>
                 <Descriptions.Item label="Address">
-                    Near Bagga Colony, Ganga Nagar, Bareilly, Uttar Pradesh, India, PIN: 243001
+                    Near XXXXX Colony, XXXXXX, Barexxxx, Uttar Praxxxx, India, PIN: 243001
                     <EditOutlined style={{ marginLeft: 8, cursor: 'pointer' }} />
                 </Descriptions.Item>
             </Descriptions>

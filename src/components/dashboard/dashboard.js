@@ -7,12 +7,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Status from './status';
 import { FileTextOutlined, DeleteOutlined } from '@ant-design/icons';
 import { url } from '../../utils/constent';
+import ExportInExcel from './exportInExcel';
 
 
 const columns = (onDelete, onDetail) => [
     {
-        title: 'Sr.',
-        render: (text, record, index) => record._id.slice(0, 10),
+        title: 'Vendor Code',
+        render: (text, record, index) => record._id.slice(0, 10).toUpperCase(),
         key: 'index',
     },
     {
@@ -26,26 +27,13 @@ const columns = (onDelete, onDetail) => [
         key: 'email',
     },
     {
-        title: 'Action',
-        key: 'action',
-        render: (text, record) => (
-            <>
-                <Space>
-                    <Tag onClick={() => onDelete(record._id)} color='red' style={{ cursor: 'pointer' }}><DeleteOutlined style={{ fontSize: '12px', marginBottom: '4px', marginRight: '4px' }} /> Delete</Tag>
-                    <Tag onClick={() => onDetail(record._id)} color='blue' style={{ cursor: 'pointer' }}> <FileTextOutlined style={{ fontSize: '12px', marginBottom: '4px', marginRight: '4px' }} /> Detail</Tag>
-                </Space>
-            </>
-
-        ),
-    },
-    {
         title: 'Created At',
         // dataIndex: 'createdAt',
         key: 'createdAt',
         render: (item, index) => {
             return (
                 <>
-                    <span>{new Date(item.createdAt).toLocaleString()}</span>
+                    <span>{new Date(item.createdAt).toLocaleString('en-GB', { hour12: true }).toUpperCase()}</span>
                 </>
             )
         }
@@ -58,11 +46,25 @@ const columns = (onDelete, onDetail) => [
         render: (item, index) => {
             return (
                 <>
-                    <span>{new Date(item.updatedAt).toLocaleString()}</span>
+                    <span>{new Date(item.updatedAt).toLocaleString('en-GB', { hour12: true }).toUpperCase()}</span>
                 </>
             )
         }
 
+    },
+    {
+        title: 'Action',
+        key: 'action',
+        render: (text, record) => (
+            <>
+                <Space>
+                    <Tag onClick={() => onDelete(record._id)} color='red' style={{ cursor: 'pointer' }}><DeleteOutlined style={{ fontSize: '12px', marginBottom: '4px', marginRight: '4px' }} /> Delete</Tag>
+                    <Tag onClick={() => onDetail(record._id)} color='blue' style={{ cursor: 'pointer' }}> <FileTextOutlined style={{ fontSize: '12px', marginBottom: '4px', marginRight: '4px' }} /> Detail</Tag>
+                    <Tag color='cyan' style={{ cursor: 'pointer' }}><ExportInExcel id={record._id} /></Tag>
+                </Space>
+            </>
+
+        ),
     },
     {
         title: 'Status',
@@ -93,7 +95,7 @@ const Dashboard = () => {
             });
             const getData = await response.json();
             setVendors(getData.vendor);
-            console.log(getData);
+            // console.log(getData);
         } catch (error) {
             console.error("Error fetching vendors", error);
         }
@@ -111,7 +113,7 @@ const Dashboard = () => {
 
     // Handle delete vendor
     const handleDelete = async (id) => {
-        console.log(id)
+        // console.log(id)
         try {
             await fetch(`${url}/api/vendor/delete/${id}`, {
                 method: "DELETE",

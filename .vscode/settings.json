@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/a14769c1-95f4-45bd-a015-66cda833ec2b/resourceGroups/BYOD-WEB/providers/Microsoft.Web/sites/vendor-registration-app",
+    "appService.deploySubpath": "build"
+}
