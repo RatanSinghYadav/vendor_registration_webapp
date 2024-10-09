@@ -80,7 +80,7 @@ const Step2 = ({ form }) => {
                             name='gstCertificate'
                             rules={[{ required: true, message: ' GST Certificate required!' }, {
                                 validator: (_, value) => {
-                                    if (!value || (/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[0-1]{1}[A-Z]{1}[0-9]{1}$/).test(value)) {
+                                    if (!value || (/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[0-1]{1}[A-Z]{1}[0-9A-Z]{1}$/).test(value)) {
                                         return Promise.resolve();
                                     }
                                     return Promise.reject(new Error("Please enter a valid 15-digit GST number!"))
@@ -121,13 +121,13 @@ const Step2 = ({ form }) => {
                         <Form.Item
                             label='38. Confirm Account Number'
                             name='confirmAccountNumber'
-                            dependencies={['accountNumber']}  
+                            dependencies={['accountNumber']}
                             rules={[
                                 { required: true, message: 'Confirm Account Number required!' },
                                 ({ getFieldValue }) => ({
                                     validator(_, value) {
                                         if (!value || getFieldValue('accountNumber') === value) {
-                                            return Promise.resolve();  
+                                            return Promise.resolve();
                                         }
                                         return Promise.reject(new Error('Account numbers do not match!'));
                                     },

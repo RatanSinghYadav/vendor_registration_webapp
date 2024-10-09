@@ -14,7 +14,7 @@ const ExportInExcel = ({ id }) => {
             }
         })
         const getData = await res.json();
-        console.log(getData);
+        // console.log(getData);
         setVendor(getData.vendor);
     }
 
