@@ -4,3 +4,11 @@
     text-align: center;
     margin-top: 1rem;
 }
+.version{
+    position: absolute;
+    bottom: 6%;
+    left: 10%;
+    color: gray;
+    display: flex;
+    align-items: center;
+}
