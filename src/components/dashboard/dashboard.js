@@ -17,9 +17,14 @@ const columns = (onDelete, onDetail) => [
         key: 'index',
     },
     {
-        title: 'Name',
+        title: 'Invited By',
         dataIndex: 'name',
         key: 'name',
+    },
+    {
+        title: "Approved By",
+        dataIndex: 'vendorApprovedBy',
+        key: 'vendorApprovedBy'
     },
     {
         title: 'Email',

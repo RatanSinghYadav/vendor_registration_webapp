@@ -12,6 +12,7 @@ const VendorDetail = () => {
     const [purchaseType, setPurchaseType] = useState('');
     const [purchaseCategory, setPurchaseCategory] = useState('');
     const [paymentTerms, setPaymentTerms] = useState('');
+    const [approvedBy, setApprovedBy] = useState('');
     const [bankDetail, setBankDetail] = useState('');
     const [approvedVendor, setApprovedVendor] = useState('');
     const [loading, setLoading] = useState(true);
@@ -37,6 +38,7 @@ const VendorDetail = () => {
             setPaymentTerms(getData.vendor.paymentTerms);
             setBankDetail(getData.vendor.approveBankDetail)
             setApprovedVendor(getData.vendor.vendorApproved);
+            setApprovedBy(getData.vendor.vendorApprovedBy)
         } catch (error) {
             message.error("Error to get vendor data");
         } finally {
@@ -46,6 +48,7 @@ const VendorDetail = () => {
 
 
     const approvedByPurchase = async () => {
+        console.log(approvedBy);
         try {
             const res = await fetch(`${url}/api/vendor/purchase/${id}`, {
                 method: "POST",
@@ -55,7 +58,8 @@ const VendorDetail = () => {
                 body: JSON.stringify({
                     purchaseType: purchaseType,
                     purchaseCategory: purchaseCategory,
-                    paymentTerms: paymentTerms
+                    paymentTerms: paymentTerms,
+                    vendorApprovedBy: approvedBy
                 })
             })
 
@@ -304,24 +308,7 @@ const VendorDetail = () => {
                     <Divider />
 
                     {/* Documents */}
-                    <Card title={<>Attachments  <IoMdAttach /></>} extra={
-                        approvedVendor === 'pending' ?
-                            <>
-                                <Button onClick={vendorApprovedById}><CheckCircleFilled /> Approve</Button>
-                            </>
-                            :
-                            <>
-                                <Button
-                                    color='success' style={{
-                                        color: "#10b981",
-                                        borderColor: "#10b981",
-                                        backgroundColor: '#ecfdf5',
-                                    }}
-                                >
-                                    <CheckCircleFilled style={{ color: '#10b981', border: '1px solid white' }} /> Approved
-                                </Button>
-                            </>
-                    }>
+                    <Card title={<>Attachments  <IoMdAttach /></>}>
                         <Divider orientation='left' orientationMargin={0} style={{ color: '#334155' }}>Upload Documents</Divider>
                         <Row gutter={[16, 16]}>
                             <Col span={6}>
@@ -409,6 +396,10 @@ const VendorDetail = () => {
                                 <h6>Payment Terms</h6>
                                 <Input value={paymentTerms} onChange={(e) => setPaymentTerms(e.target.value)} placeholder='Payment Terms' />
                             </Col>
+                            <Col span={4}>
+                                <h6>Approved By</h6>
+                                <Input value={approvedBy} onChange={(e) => setApprovedBy(e.target.value)} placeholder='Name' />
+                            </Col>
                             <div style={{ display: 'flex', alignItems: 'end', justifyContent: 'space-between' }}>
                                 <Col span={6}>
                                     <Button onClick={approvedByPurchase} type='primary'>Final Submit</Button>
@@ -416,6 +407,24 @@ const VendorDetail = () => {
                             </div>
                         </Row>
                     </Card>
+                    <Divider>{
+                        approvedVendor === 'pending' ?
+                            <>
+                                <Button onClick={vendorApprovedById}><CheckCircleFilled /> Vendor Approve</Button>
+                            </>
+                            :
+                            <>
+                                <Button
+                                    color='success' style={{
+                                        color: "#10b981",
+                                        borderColor: "#10b981",
+                                        backgroundColor: '#ecfdf5',
+                                    }}
+                                >
+                                    <CheckCircleFilled style={{ color: '#10b981', border: '1px solid white' }} />Vendor Approved
+                                </Button>
+                            </>
+                    }</Divider>
                 </>
             )}
 
