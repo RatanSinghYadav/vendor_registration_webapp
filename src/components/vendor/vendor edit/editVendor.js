@@ -47,7 +47,7 @@ const EditVendor = () => {
         bankAccountDetails: "",
         gstCertificate: ""
     }]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true); 
 
     const { id } = useParams('');
 
