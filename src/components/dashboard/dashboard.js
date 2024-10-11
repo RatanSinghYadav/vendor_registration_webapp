@@ -5,26 +5,21 @@ import SendInvite from './sendInvite';
 import '../../App.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import Status from './status';
-import { FileTextOutlined, DeleteOutlined } from '@ant-design/icons';
+import { FileTextOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { url } from '../../utils/constent';
 import ExportInExcel from './exportInExcel';
 
 
-const columns = (onDelete, onDetail) => [
+const columns = (onDelete, onDetail, onEdit) => [
     {
         title: 'Vendor Code',
         render: (text, record, index) => record._id.slice(0, 10).toUpperCase(),
         key: 'index',
     },
     {
-        title: 'Invited By',
+        title: 'Vendor Name',
         dataIndex: 'name',
         key: 'name',
-    },
-    {
-        title: "Approved By",
-        dataIndex: 'vendorApprovedBy',
-        key: 'vendorApprovedBy'
     },
     {
         title: 'Email',
@@ -63,13 +58,19 @@ const columns = (onDelete, onDetail) => [
         render: (text, record) => (
             <>
                 <Space>
-                    <Tag onClick={() => onDelete(record._id)} color='red' style={{ cursor: 'pointer' }}><DeleteOutlined style={{ fontSize: '12px', marginBottom: '4px', marginRight: '4px' }} /> Delete</Tag>
                     <Tag onClick={() => onDetail(record._id)} color='blue' style={{ cursor: 'pointer' }}> <FileTextOutlined style={{ fontSize: '12px', marginBottom: '4px', marginRight: '4px' }} /> Detail</Tag>
-                    <Tag color='cyan' style={{ cursor: 'pointer' }}><ExportInExcel id={record._id} /></Tag>
+                    <Tag onClick={() => onEdit(record._id)} style={{ cursor: 'pointer' }} color='purple'><EditOutlined /> Edit</Tag>
+                    <Tag style={{ cursor: 'pointer' }} color='cyan'><ExportInExcel id={record._id} /></Tag>
+                    <Tag onClick={() => onDelete(record._id)} color='red' style={{ cursor: 'pointer' }}><DeleteOutlined style={{ fontSize: '12px', marginBottom: '4px', marginRight: '4px' }} /> Delete</Tag>
                 </Space>
             </>
 
         ),
+    },
+    {
+        title: "Approved By",
+        dataIndex: 'vendorApprovedBy',
+        key: 'vendorApprovedBy'
     },
     {
         title: 'Status',
@@ -140,11 +141,15 @@ const Dashboard = () => {
         navigate(`/vendor/details/${id}`)
     }
 
+    const editVendorById = (id) => {
+        navigate(`/vendor/edit/${id}`)
+    }
+
     return (
         <>
             <SendInvite onInviteSend={handleInviteSend} />
             <Table
-                columns={columns(handleDelete, getVendorById)}
+                columns={columns(handleDelete, getVendorById, editVendorById)}
                 dataSource={vendors.map((vendor) => ({ ...vendor, key: vendor.id }))}
                 bordered
                 loading={loading}

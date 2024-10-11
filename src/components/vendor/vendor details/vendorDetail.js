@@ -114,11 +114,11 @@ const VendorDetail = () => {
                 <>
 
                     {/* Compnay Profile */}
-                    <Card title="Compnay Profile">
+                    <Card title="Company Profile">
                         <Row gutter={[16, 16]}>
                             {/* line 1 */}
                             <Col span={6}>
-                                <h6>Vendor Code</h6>
+                                <h6>Vendor ID</h6>
                                 <p>{(vendor._id)?.toUpperCase()}</p>
                             </Col>
                             <Col span={6}>
@@ -135,7 +135,7 @@ const VendorDetail = () => {
                             </Col>
                             {/* line 2 */}
                             <Col span={6}>
-                                <h6>Turnover in lakhs</h6>
+                                <h6>Company Turnover</h6>
                                 <p>{vendor.turnoverInLakhs}</p>
                             </Col>
                             <Col span={6}>
