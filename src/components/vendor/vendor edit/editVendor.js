@@ -79,30 +79,30 @@ const EditVendor = () => {
     };
 
 
-    const approvedByPurchase = async () => {
-        console.log(approvedBy);
-        try {
-            const res = await fetch(`${url}/api/vendor/purchase/${id}`, {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    purchaseType: purchaseType,
-                    purchaseCategory: purchaseCategory,
-                    paymentTerms: paymentTerms,
-                    vendorApprovedBy: approvedBy
-                })
-            })
+    // const approvedByPurchase = async () => {
+    //     console.log(approvedBy);
+    //     try {
+    //         const res = await fetch(`${url}/api/vendor/purchase/${id}`, {
+    //             method: "POST",
+    //             headers: {
+    //                 'Content-Type': 'application/json'
+    //             },
+    //             body: JSON.stringify({
+    //                 purchaseType: purchaseType,
+    //                 purchaseCategory: purchaseCategory,
+    //                 paymentTerms: paymentTerms,
+    //                 vendorApprovedBy: approvedBy
+    //             })
+    //         })
 
-            const getData = await res.json();
-            console.log(getData);
-            message.success("Final Submit vendor Details!")
-        } catch (error) {
-            console.log("Error to approved vendor.", error);
-            message.error("Error to approved vendor.");
-        }
-    }
+    //         const getData = await res.json();
+    //         console.log(getData);
+    //         message.success("Final Submit vendor Details!")
+    //     } catch (error) {
+    //         console.log("Error to approved vendor.", error);
+    //         message.error("Error to approved vendor.");
+    //     }
+    // }
 
     const removeUnderline = {
         textDecoration: 'none'
