@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { url } from '../../utils/constent';
-import { CSVLink } from 'react-csv';
 import { FileExcelOutlined } from '@ant-design/icons';
+import * as XLSX from 'xlsx';
+import { Link } from 'react-router-dom';
 
 const ExportInExcel = ({ id }) => {
     const [vendor, setVendor] = useState([]);
@@ -12,14 +13,14 @@ const ExportInExcel = ({ id }) => {
             headers: {
                 'Content-Type': 'application/json'
             }
-        })
+        });
         const getData = await res.json();
         // console.log(getData);
         setVendor(getData.vendor);
-    }
+    };
 
-    function exportInCsv() {
-        const csvData = [{
+    function exportInExcel() {
+        const excelData = [{
             CUSTOMERACCOUNT: "",
             ACCOUNTSTATEMENT: "Always",
             ADDRESSBOOKS: "",
@@ -88,7 +89,7 @@ const ExportInExcel = ({ id }) => {
             DELIVERYREASON: "",
             DELIVERYTERMS: "",
             DESTINATIONCODE: "",
-            DISCOUNTPRICEGROUPID: "BR-RUPPAM",
+            DISCOUNTPRICEGROUPID: "",
             ELECTRONICLOCATIONID: "",
             EMPLOYEERESPONSIBLENUMBER: "",
             FOREIGNCUSTOMER: "No",
@@ -128,7 +129,7 @@ const ExportInExcel = ({ id }) => {
             ITEMCUSTOMERGROUPID: "",
             KNOWNAS: "",
             LANGUAGEID: "en-IN",
-            LINEDISCOUNTCODE: "BR-UPLPAM",
+            LINEDISCOUNTCODE: "",
             LINEOFBUSINESSID: "",
             MERCHANTID: "",
             MULTILINEDISCOUNTCODE: "",
@@ -157,8 +158,9 @@ const ExportInExcel = ({ id }) => {
             PAYMENTMETHOD: "",
             PAYMENTSCHEDULE: "",
             PAYMENTSPECIFICATION: "",
+            PAYMENTTERMS: "",
             PAYMENTTERMSBASEDAYS: "0",
-            PAYMENTUSECASHDISCOUNT: "Normal",
+            PAYMENTUSECASHDISCOUNT: "",
             PERSONANNIVERSARYDAY: "",
             PERSONANNIVERSARYMONTH: "",
             PERSONANNIVERSARYYEAR: "",
@@ -206,6 +208,7 @@ const ExportInExcel = ({ id }) => {
             PRIMARYCONTACTURLDESCRIPTION: "",
             PRIMARYCONTACTURLPURPOSE: "",
             RECEIPTCALENDAR: "",
+            RECEIPTEMAIL: "",
             RECEIPTOPTION: "RetailEx3",
             SALESACCOUNTNUMBER: "",
             SALESCURRENCYCODE: "INR",
@@ -214,35 +217,47 @@ const ExportInExcel = ({ id }) => {
             SALESORDERPOOLID: "",
             SALESSEGMENTID: "",
             SALESSUBSEGMENTID: "",
+            SALESTAXGROUP: "",
             SITEID: "",
             STATISTICSGROUPID: "",
             SUPPLEMENTARYITEMGROUPID: "",
             TAXEXEMPTNUMBER: "",
             TCSGROUP: "",
             TDSGROUP: "",
+            TOTALDISCOUNTCODE: "",
             VENDORACCOUNT: "",
+            WAREHOUSEID: "",
             WAREHOUSEISASNGENERATED: "No",
             WAREHOUSEISENTIRESHIPMENTFILLED: "No",
             WRITEOFFREASON: "",
         }];
 
-        return csvData;
+        // 1. Data ko worksheet mai convert karo
+        const worksheet = XLSX.utils.json_to_sheet(excelData);
+
+        // 2. Workbook banao
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+
+        // 3. Excel file ko output karo
+        XLSX.writeFile(workbook, 'CUSTV3.xlsx');
     }
 
     useEffect(() => {
         fetchVendor();
-    }, [])
+    }, []);
+
     return (
         <>
-            <CSVLink
-                filename={"vendor_details.csv"}
-                data={exportInCsv()}
+            <Link
+                onClick={exportInExcel}
                 style={{ textDecoration: 'none', color: '#08979C', fontWeight: '600' }}
             >
-                <FileExcelOutlined style={{ fontSize: '12px', marginBottom: '4px', marginRight: '4px' }} /> Save as Excel
-            </CSVLink>
+                <FileExcelOutlined style={{ fontSize: '12px', marginBottom: '4px', marginRight: '4px' }} />
+                Excel
+            </Link>
         </>
-    )
-}
+    );
+};
 
-export default ExportInExcel
+export default ExportInExcel;
