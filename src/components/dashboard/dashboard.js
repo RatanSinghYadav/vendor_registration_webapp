@@ -11,9 +11,14 @@ import ExportInExcel from './exportInExcel';
 
 
 const columns = (onDelete, onDetail, onEdit) => [
+    // {
+    //     title: 'Vendor Id',
+    //     render: (text, record, index) => record._id.slice(0, 10).toUpperCase(),
+    //     key: 'index',
+    // },
     {
         title: 'Vendor Code',
-        render: (text, record, index) => record._id.slice(0, 10).toUpperCase(),
+        render: (text, record, index) => record.vendorCode === null? "-":record.vendorCode,
         key: 'index',
     },
     {
