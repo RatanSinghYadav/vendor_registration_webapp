@@ -98,7 +98,7 @@ const Sidebar = () => {
                 />
                 <div className="version">
                     VERSION
-                     0.1.1
+                     0.2.1
                 </div>
             </Sider>
             <Layout style={{ marginLeft: collapsed ? 80 : 200, transition: 'margin-left 0.3s ease' }}>

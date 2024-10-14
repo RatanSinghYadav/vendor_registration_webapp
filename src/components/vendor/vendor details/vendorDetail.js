@@ -113,7 +113,7 @@ const VendorDetail = () => {
             {loading ? <Spin /> : (
                 <>
 
-                    {/* Compnay Profile */}
+                    {/* Company Profile */}
                     <Card title="Company Profile">
                         <Row gutter={[16, 16]}>
                             {/* line 1 */}
@@ -283,8 +283,8 @@ const VendorDetail = () => {
 
                     <Divider />
 
-                    {/* Compnay other Details */}
-                    <Card title="Compnay other Details">
+                    {/* Company other Details */}
+                    <Card title="Company other Details">
                         <Row gutter={[16, 16]}>
                             <Col span={12}>
                                 <h6>Type of the Firm</h6>

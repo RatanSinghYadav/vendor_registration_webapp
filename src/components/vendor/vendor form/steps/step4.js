@@ -151,7 +151,7 @@ const Step4 = ({ form }) => {
                         name='msmeCertificateFile'
                         valuePropName="fileList"
                         getValueFromEvent={normFile}
-                        rules={[{ required: true, message: 'Incorporation Certificate required!' }]}
+                        // rules={[{ required: true, message: 'Incorporation Certificate required!' }]}
                     >
                         <Upload
 
