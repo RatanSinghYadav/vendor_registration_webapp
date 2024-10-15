@@ -373,7 +373,7 @@ const EditVendor = () => {
                         </Row>
 
                         {/* Downloaded files */}
-                        {/* <Divider orientation='left' orientationMargin={0} style={{ color: '#334155' }}>Files</Divider>
+                        <Divider orientation='left' orientationMargin={0} style={{ color: '#334155' }}>Files</Divider>
                         <Row gutter={[16, 16]}>
                             <Col span={6}>
                                 <h6>Incorporation Certificate</h6>
@@ -411,7 +411,7 @@ const EditVendor = () => {
                                     Open
                                 </Button>
                             </Col>
-                        </Row> */}
+                        </Row>
                     </Card>
 
                     {/* For Purchase  */}
