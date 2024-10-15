@@ -372,7 +372,7 @@ const EditVendor = () => {
                             </Col>
                         </Row>
 
-                        {/* Downloaded files */}
+                        {/* Downloaded files */} 
                         <Divider orientation='left' orientationMargin={0} style={{ color: '#334155' }}>Files</Divider>
                         <Row gutter={[16, 16]}>
                             <Col span={6}>
@@ -411,6 +411,7 @@ const EditVendor = () => {
                                     Open
                                 </Button>
                             </Col>
+                            
                         </Row>
                     </Card>
 
