@@ -123,28 +123,28 @@ const VendorDetail = () => {
                             </Col>
                             <Col span={6}>
                                 <h6>Name of the Company</h6>
-                                <p>{vendor.companyName}</p>
+                                <p>{(vendor.companyName)?.toUpperCase()}</p>
                             </Col>
                             <Col span={6}>
                                 <h6>Name of Proprietor/Partners/Directors</h6>
-                                <p>{vendor.proprietorName}</p>
+                                <p>{(vendor.proprietorName)?.toUpperCase()}</p>
                             </Col>
                             <Col span={6}>
                                 <h6>Nature of Business</h6>
-                                <p>{vendor.businessNature}</p>
+                                <p>{(vendor.businessNature)?.toUpperCase()}</p>
                             </Col>
                             {/* line 2 */}
                             <Col span={6}>
                                 <h6>Company Turnover</h6>
-                                <p>{vendor.turnoverInLakhs}</p>
+                                <p>{(vendor.turnoverInLakhs)?.toUpperCase()}</p>
                             </Col>
                             <Col span={6}>
                                 <h6>Current Business Years</h6>
-                                <p>{vendor.yearsInBusiness}</p>
+                                <p>{(vendor.yearsInBusiness)?.toUpperCase()}</p>
                             </Col>
                             <Col span={6}>
                                 <h6>Work Space Area</h6>
-                                <p>{vendor.workspaceArea}</p>
+                                <p>{(vendor.workspaceArea)?.toUpperCase()}</p>
                             </Col>
                         </Row>
                     </Card>
@@ -174,15 +174,15 @@ const VendorDetail = () => {
                             </Col>
                             <Col span={6}>
                                 <h6>Country</h6>
-                                <p>{vendor.companyCountry}</p>
+                                <p>{(vendor.companyCountry)?.toUpperCase()}</p>
                             </Col>
                             <Col span={6}>
                                 <h6>State</h6>
-                                <p>{vendor.companyState}</p>
+                                <p>{(vendor.companyState)?.toUpperCase()}</p>
                             </Col>
                             <Col span={6}>
                                 <h6>City</h6>
-                                <p>{vendor.companyCity}</p>
+                                <p>{(vendor.companyCity)?.toUpperCase()}</p>
                             </Col>
                             <Col span={6}>
                                 <h6>Pin</h6>
@@ -190,7 +190,7 @@ const VendorDetail = () => {
                             </Col>
                             <Col span={12}>
                                 <h6>Address</h6>
-                                <p>{vendor.companyAddress}</p>
+                                <p>{(vendor.companyAddress)?.toUpperCase()}</p>
                             </Col>
                         </Row>
 
@@ -215,15 +215,15 @@ const VendorDetail = () => {
                             </Col>
                             <Col span={6}>
                                 <h6>Country</h6>
-                                <p>{vendor.branchCountry}</p>
+                                <p>{(vendor.branchCountry)?.toUpperCase()}</p>
                             </Col>
                             <Col span={6}>
                                 <h6>State</h6>
-                                <p>{vendor.branchState}</p>
+                                <p>{(vendor.branchState)?.toUpperCase()}</p>
                             </Col>
                             <Col span={6}>
                                 <h6>City</h6>
-                                <p>{vendor.branchCity}</p>
+                                <p>{(vendor.branchCity)?.toUpperCase()}</p>
                             </Col>
                             <Col span={6}>
                                 <h6>Pin</h6>
@@ -231,7 +231,7 @@ const VendorDetail = () => {
                             </Col>
                             <Col span={12}>
                                 <h6>Address</h6>
-                                <p>{vendor.branchAddress}</p>
+                                <p>{(vendor.branchAddress)?.toUpperCase()}</p>
                             </Col>
                         </Row>
                     </Card>
@@ -313,27 +313,27 @@ const VendorDetail = () => {
                         <Row gutter={[16, 16]}>
                             <Col span={6}>
                                 <h6>Incorporation Certificate</h6>
-                                <p>{vendor.incorporationCertificate}</p>
+                                <p>{(vendor.incorporationCertificate)?.toUpperCase()}</p>
                             </Col>
                             <Col span={6}>
                                 <h6>MSME Certificate</h6>
-                                <p>{vendor.registeredMSME}</p>
+                                <p>{(vendor.registeredMSME)?.toUpperCase()}</p>
                             </Col>
                             <Col span={6}>
                                 <h6>PAN</h6>
-                                <p>{vendor.pan}</p>
+                                <p>{(vendor.pan)?.toUpperCase()}</p>
                             </Col>
                             <Col span={6}>
                                 <h6>Principal Business Proof</h6>
-                                <p>{vendor.businessAddressProof}</p>
+                                <p>{(vendor.businessAddressProof)?.toUpperCase()}</p>
                             </Col>
                             <Col span={6}>
                                 <h6>Bank Account Details(Cancel Cheque etc.)</h6>
-                                <p>{vendor.bankAccountDetails}</p>
+                                <p>{(vendor.bankAccountDetails)?.toUpperCase()}</p>
                             </Col>
                             <Col>
                                 <h6>GST Registration Certificate</h6>
-                                <p>{vendor.gstCertificate}</p>
+                                <p>{(vendor.gstCertificate)?.toUpperCase()}</p>
                             </Col>
                         </Row>
 
