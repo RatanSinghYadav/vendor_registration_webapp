@@ -8,6 +8,7 @@ import Status from './status';
 import { FileTextOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { url } from '../../utils/constent';
 import ExportInExcel from './exportInExcel';
+import { render } from '@testing-library/react';
 
 
 const columns = (onDelete, onDetail, onEdit) => [
@@ -18,7 +19,7 @@ const columns = (onDelete, onDetail, onEdit) => [
     // },
     {
         title: 'Vendor Code',
-        render: (text, record, index) => record.vendorCode === null? "-":record.vendorCode,
+        render: (text, record, index) => record.vendorCode === null ? "-" : record.vendorCode,
         key: 'index',
     },
     {
@@ -66,7 +67,17 @@ const columns = (onDelete, onDetail, onEdit) => [
                     <Tag onClick={() => onDetail(record._id)} color='blue' style={{ cursor: 'pointer' }}> <FileTextOutlined style={{ fontSize: '12px', marginBottom: '4px', marginRight: '4px' }} /> Detail</Tag>
                     <Tag onClick={() => onEdit(record._id)} style={{ cursor: 'pointer' }} color='purple'><EditOutlined /> Edit</Tag>
                     <Tag style={{ cursor: 'pointer' }} color='cyan'><ExportInExcel id={record._id} /></Tag>
-                    <Tag onClick={() => onDelete(record._id)} color='red' style={{ cursor: 'pointer' }}><DeleteOutlined style={{ fontSize: '12px', marginBottom: '4px', marginRight: '4px' }} /> Delete</Tag>
+                    {record.status === "approved" ?
+                        <>
+                            <Tag color='default' style={{ cursor: 'pointer' }}><DeleteOutlined disabled={true} style={{ fontSize: '12px', marginBottom: '4px', marginRight: '4px' }} /> Delete</Tag>
+
+                        </>
+                        :
+                        <>
+
+                            <Tag onClick={() => onDelete(record._id)} color='red' style={{ cursor: 'pointer' }}><DeleteOutlined style={{ fontSize: '12px', marginBottom: '4px', marginRight: '4px' }} /> Delete</Tag>
+                        </>
+                    }
                 </Space>
             </>
 
