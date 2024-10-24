@@ -3,7 +3,6 @@ import '../../assets/styles/sendInvite.css';
 import { Button, Col, Input, Row, Space, message } from "antd";
 // import { LuRefreshCw } from '@ant-design/icons';
 import { LuRefreshCw } from "react-icons/lu";
-import { TbRefreshDot } from "react-icons/tb";
 import Search from "antd/es/input/Search";
 import { IoMdMail } from "react-icons/io";
 import { url } from "../../utils/constent";
