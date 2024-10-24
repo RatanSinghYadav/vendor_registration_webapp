@@ -98,7 +98,7 @@ const Sidebar = () => {
                 />
                 <div className="version">
                     VERSION
-                     0.2.1
+                     0.2.2
                 </div>
             </Sider>
             <Layout style={{ marginLeft: collapsed ? 80 : 200, transition: 'margin-left 0.3s ease' }}>
@@ -121,7 +121,7 @@ const Sidebar = () => {
                             }}
                         />
                         <Space>
-                            <Avatar size={40} style={{ backgroundColor: '#87d068', }}>R</Avatar>
+                            <Avatar size={40} style={{ backgroundColor: '#87d068', }}>N</Avatar>
                             <div>
                                 <Title level={5} style={{ margin: "20px 20px -25px 0px"}}>Naresh Kumar</Title>
                                 <Text type="secondary">Admin</Text>
