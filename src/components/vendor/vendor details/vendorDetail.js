@@ -1,11 +1,12 @@
 import { Card, Row, Col, Divider, Button, Tag, Input, message, Spin } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { MailOutlined, MobileOutlined, PhoneOutlined, BankOutlined, EyeOutlined } from '@ant-design/icons';
+import { MailOutlined, MobileOutlined, PhoneOutlined, BankOutlined, EyeOutlined, CopyOutlined } from '@ant-design/icons';
 import { IoMdAttach } from "react-icons/io";
 import { useParams } from 'react-router-dom';
 import '../../../assets/styles/vendorDetail.css';
 import { url } from '../../../utils/constent.js';
 import { CheckCircleFilled } from '@ant-design/icons';
+import CopyToClipboard from 'react-copy-to-clipboard';
 
 const VendorDetail = () => {
     const [vendor, setVendor] = useState([]);
@@ -19,6 +20,18 @@ const VendorDetail = () => {
 
     const { id } = useParams('');
 
+    // copy functionality 
+    const [copyStatus, setCopyStatus] = useState({});
+
+    const copyHandle = (field) => {
+        setCopyStatus((prev) => ({ ...prev, [field]: true }));
+
+        setTimeout(() => {
+            setCopyStatus((prev) => ({ ...prev, [field]: false }));
+        }, (2000));
+    }
+
+    // // // // // //
 
     const getVendorById = async () => {
         setLoading(true);
@@ -119,32 +132,74 @@ const VendorDetail = () => {
                             {/* line 1 */}
                             <Col span={6}>
                                 <h6>Vendor ID</h6>
-                                <p>{(vendor._id)?.toUpperCase()}</p>
+                                <span className='spanDetail'>
+                                    {(vendor._id)?.toUpperCase()}
+                                    <CopyToClipboard text={(vendor._id)?.toUpperCase()} onCopy={() => copyHandle('vendorId')}>
+                                        <CopyOutlined />
+                                    </CopyToClipboard>
+                                    {copyStatus.vendorId && <span style={{ marginLeft: '10px', color: 'green' }}>copied!</span>}
+                                </span>
                             </Col>
                             <Col span={6}>
                                 <h6>Name of the Company</h6>
-                                <p>{(vendor.companyName)?.toUpperCase()}</p>
+                                <span className='spanDetail'>
+                                    {(vendor.companyName)?.toUpperCase()}
+                                    <CopyToClipboard text={(vendor.companyName)?.toUpperCase()} onCopy={() => copyHandle('companyName')}>
+                                        <CopyOutlined />
+                                    </CopyToClipboard>
+                                    {copyStatus.companyName && <span style={{ marginLeft: '10px', color: 'green' }}>copied!</span>}
+                                </span>
                             </Col>
                             <Col span={6}>
                                 <h6>Name of Proprietor/Partners/Directors</h6>
-                                <p>{(vendor.proprietorName)?.toUpperCase()}</p>
+                                <span className='spanDetail'>
+                                    {(vendor.proprietorName)?.toUpperCase()}
+                                    <CopyToClipboard text={(vendor.proprietorName)?.toUpperCase()} onCopy={() => copyHandle('proprietorName')}>
+                                        <CopyOutlined />
+                                    </CopyToClipboard>
+                                    {copyStatus.proprietorName && <span style={{ marginLeft: '10px', color: 'green' }}>copied!</span>}
+                                </span>
                             </Col>
                             <Col span={6}>
                                 <h6>Nature of Business</h6>
-                                <p>{(vendor.businessNature)?.toUpperCase()}</p>
+                                <span className='spanDetail'>
+                                    {(vendor.businessNature)?.toUpperCase()}
+                                    <CopyToClipboard text={(vendor.businessNature)?.toUpperCase()} onCopy={() => copyHandle('businessNature')}>
+                                        <CopyOutlined />
+                                    </CopyToClipboard>
+                                    {copyStatus.businessNature && <span style={{ marginLeft: '10px', color: 'green' }}>copied!</span>}
+                                </span>
                             </Col>
                             {/* line 2 */}
                             <Col span={6}>
                                 <h6>Company Turnover</h6>
-                                <p>{(vendor.turnoverInLakhs)?.toUpperCase()}</p>
+                                <span className='spanDetail'>
+                                    {(vendor.turnoverInLakhs)?.toUpperCase()}
+                                    <CopyToClipboard text={(vendor.turnoverInLakhs)?.toUpperCase()} onCopy={() => copyHandle('turnoverInLakhs')}>
+                                        <CopyOutlined />
+                                    </CopyToClipboard>
+                                    {copyStatus.turnoverInLakhs && <span style={{ marginLeft: '10px', color: 'green' }}>copied!</span>}
+                                </span>
                             </Col>
                             <Col span={6}>
                                 <h6>Current Business Years</h6>
-                                <p>{(vendor.yearsInBusiness)?.toUpperCase()}</p>
+                                <span className='spanDetail'>
+                                    {(vendor.yearsInBusiness)?.toUpperCase()}
+                                    <CopyToClipboard text={(vendor.yearsInBusiness)?.toUpperCase()} onCopy={() => copyHandle('yearsInBusiness')}>
+                                        <CopyOutlined />
+                                    </CopyToClipboard>
+                                    {copyStatus.yearsInBusiness && <span style={{ marginLeft: '10px', color: 'green' }}>copied!</span>}
+                                </span>
                             </Col>
                             <Col span={6}>
                                 <h6>Work Space Area</h6>
-                                <p>{(vendor.workspaceArea)?.toUpperCase()}</p>
+                                <span className='spanDetail'>
+                                    {(vendor.workspaceArea)?.toUpperCase()}
+                                    <CopyToClipboard text={(vendor.workspaceArea)?.toUpperCase()} onCopy={() => copyHandle('workspaceArea')}>
+                                        <CopyOutlined />
+                                    </CopyToClipboard>
+                                    {copyStatus.workspaceArea && <span style={{ marginLeft: '10px', color: 'green' }}>copied!</span>}
+                                </span>
                             </Col>
                         </Row>
                     </Card>
@@ -158,39 +213,93 @@ const VendorDetail = () => {
                         <Row gutter={[16, 16]}>
                             <Col span={6}>
                                 <h6>Mobile Number <MobileOutlined /></h6>
-                                <p>{vendor.companyMobile}</p>
+                                <span className='spanDetail'>
+                                    {vendor.companyMobile}
+                                    <CopyToClipboard text={vendor.companyMobile} onCopy={() => copyHandle('companyMobile')}>
+                                        <CopyOutlined />
+                                    </CopyToClipboard>
+                                    {copyStatus.companyMobile && <span style={{ marginLeft: '10px', color: 'green' }}>copied!</span>}
+                                </span>
                             </Col>
                             <Col span={6}>
                                 <h6>Telephone Number <PhoneOutlined /></h6>
-                                <p>{vendor.companyTelephone} </p>
+                                <span className='spanDetail'>
+                                    {vendor.companyTelephone}
+                                    <CopyToClipboard text={vendor.companyTelephone} onCopy={() => copyHandle('companyTelephone')}>
+                                        <CopyOutlined />
+                                    </CopyToClipboard>
+                                    {copyStatus.companyTelephone && <span style={{ marginLeft: '10px', color: 'green' }}>copied!</span>}
+                                </span>
                             </Col>
                             <Col span={6}>
                                 <h6>Email of Contact Person <MailOutlined /></h6>
-                                <p>{vendor.companyPersonEmail} </p>
+                                <span className='spanDetail'>
+                                    {(vendor.companyPersonEmail)?.toUpperCase()}
+                                    <CopyToClipboard text={(vendor.companyPersonEmail)?.toUpperCase()} onCopy={() => copyHandle('companyPersonEmail')}>
+                                        <CopyOutlined />
+                                    </CopyToClipboard>
+                                    {copyStatus.companyPersonEmail && <span style={{ marginLeft: '10px', color: 'green' }}>copied!</span>}
+                                </span>
                             </Col>
                             <Col span={6}>
                                 <h6>Business Email <MailOutlined /></h6>
-                                <p>{vendor.companyEmail}</p>
+                                <span className='spanDetail'>
+                                    {(vendor.companyEmail)?.toUpperCase()}
+                                    <CopyToClipboard text={(vendor.companyEmail)?.toUpperCase()} onCopy={() => copyHandle('companyEmail')}>
+                                        <CopyOutlined />
+                                    </CopyToClipboard>
+                                    {copyStatus.companyEmail && <span style={{ marginLeft: '10px', color: 'green' }}>copied!</span>}
+                                </span>
                             </Col>
                             <Col span={6}>
                                 <h6>Country</h6>
-                                <p>{(vendor.companyCountry)?.toUpperCase()}</p>
+                                <span className='spanDetail'>
+                                    {(vendor.companyCountry)?.toUpperCase()}
+                                    <CopyToClipboard text={(vendor.companyCountry)?.toUpperCase()} onCopy={() => copyHandle('companyCountry')}>
+                                        <CopyOutlined />
+                                    </CopyToClipboard>
+                                    {copyStatus.companyCountry && <span style={{ marginLeft: '10px', color: 'green' }}>copied!</span>}
+                                </span>
                             </Col>
                             <Col span={6}>
                                 <h6>State</h6>
-                                <p>{(vendor.companyState)?.toUpperCase()}</p>
+                                <span className='spanDetail'>
+                                    {(vendor.companyState)?.toUpperCase()}
+                                    <CopyToClipboard text={(vendor.companyState)?.toUpperCase()} onCopy={() => copyHandle('companyState')}>
+                                        <CopyOutlined />
+                                    </CopyToClipboard>
+                                    {copyStatus.companyState && <span style={{ marginLeft: '10px', color: 'green' }}>copied!</span>}
+                                </span>
                             </Col>
                             <Col span={6}>
                                 <h6>City</h6>
-                                <p>{(vendor.companyCity)?.toUpperCase()}</p>
+                                <span className='spanDetail'>
+                                    {(vendor.companyCity)?.toUpperCase()}
+                                    <CopyToClipboard text={(vendor.companyCity)?.toUpperCase()} onCopy={() => copyHandle('companyCity')}>
+                                        <CopyOutlined />
+                                    </CopyToClipboard>
+                                    {copyStatus.companyCity && <span style={{ marginLeft: '10px', color: 'green' }}>copied!</span>}
+                                </span>
                             </Col>
                             <Col span={6}>
                                 <h6>Pin</h6>
-                                <p>{vendor.companyPin}</p>
+                                <span className='spanDetail'>
+                                    {vendor.companyPin}
+                                    <CopyToClipboard text={vendor.companyPin} onCopy={() => copyHandle('companyPin')}>
+                                        <CopyOutlined />
+                                    </CopyToClipboard>
+                                    {copyStatus.companyPin && <span style={{ marginLeft: '10px', color: 'green' }}>copied!</span>}
+                                </span>
                             </Col>
                             <Col span={12}>
                                 <h6>Address</h6>
-                                <p>{(vendor.companyAddress)?.toUpperCase()}</p>
+                                <span className='spanDetail'>
+                                    {(vendor.companyAddress)?.toUpperCase()}
+                                    <CopyToClipboard text={(vendor.companyAddress)?.toUpperCase()} onCopy={() => copyHandle('companyAddress')}>
+                                        <CopyOutlined />
+                                    </CopyToClipboard>
+                                    {copyStatus.companyAddress && <span style={{ marginLeft: '10px', color: 'green' }}>copied!</span>}
+                                </span>
                             </Col>
                         </Row>
 
@@ -199,39 +308,93 @@ const VendorDetail = () => {
                         <Row gutter={[16, 16]}>
                             <Col span={6}>
                                 <h6>Mobile Number <MobileOutlined /></h6>
-                                <p>{vendor.branchMobile}</p>
+                                <span className='spanDetail'>
+                                    {vendor.branchMobile}
+                                    <CopyToClipboard text={vendor.branchMobile} onCopy={() => copyHandle('branchMobile')}>
+                                        <CopyOutlined />
+                                    </CopyToClipboard>
+                                    {copyStatus.branchMobile && <span style={{ marginLeft: '10px', color: 'green' }}>copied!</span>}
+                                </span>
                             </Col>
                             <Col span={6}>
                                 <h6>Telephone Number <PhoneOutlined /></h6>
-                                <p>{vendor.branchTelephone} </p>
+                                <span className='spanDetail'>
+                                    {vendor.branchTelephone}
+                                    <CopyToClipboard text={vendor.branchTelephone} onCopy={() => copyHandle('branchTelephone')}>
+                                        <CopyOutlined />
+                                    </CopyToClipboard>
+                                    {copyStatus.branchTelephone && <span style={{ marginLeft: '10px', color: 'green' }}>copied!</span>}
+                                </span>
                             </Col>
                             <Col span={6}>
                                 <h6>Email of Contact Person <MailOutlined /></h6>
-                                <p>{vendor.branchPersonEmail} </p>
+                                <span className='spanDetail'>
+                                    {(vendor.branchPersonEmail)?.toUpperCase()}
+                                    <CopyToClipboard text={(vendor.branchPersonEmail)?.toUpperCase()} onCopy={() => copyHandle('branchPersonEmail')}>
+                                        <CopyOutlined />
+                                    </CopyToClipboard>
+                                    {copyStatus.branchPersonEmail && <span style={{ marginLeft: '10px', color: 'green' }}>copied!</span>}
+                                </span>
                             </Col>
                             <Col span={6}>
                                 <h6>Business Email <MailOutlined /></h6>
-                                <p>{vendor.branchEmail}</p>
+                                <span className='spanDetail'>
+                                    {(vendor.branchEmail)?.toUpperCase()}
+                                    <CopyToClipboard text={(vendor.branchEmail)?.toUpperCase()} onCopy={() => copyHandle('branchEmail')}>
+                                        <CopyOutlined />
+                                    </CopyToClipboard>
+                                    {copyStatus.branchEmail && <span style={{ marginLeft: '10px', color: 'green' }}>copied!</span>}
+                                </span>
                             </Col>
                             <Col span={6}>
                                 <h6>Country</h6>
-                                <p>{(vendor.branchCountry)?.toUpperCase()}</p>
+                                <span className='spanDetail'>
+                                    {(vendor.branchCountry)?.toUpperCase()}
+                                    <CopyToClipboard text={(vendor.branchCountry)?.toUpperCase()} onCopy={() => copyHandle('branchCountry')}>
+                                        <CopyOutlined />
+                                    </CopyToClipboard>
+                                    {copyStatus.branchCountry && <span style={{ marginLeft: '10px', color: 'green' }}>copied!</span>}
+                                </span>
                             </Col>
                             <Col span={6}>
                                 <h6>State</h6>
-                                <p>{(vendor.branchState)?.toUpperCase()}</p>
+                                <span className='spanDetail'>
+                                    {(vendor.branchState)?.toUpperCase()}
+                                    <CopyToClipboard text={(vendor.branchState)?.toUpperCase()} onCopy={() => copyHandle('branchState')}>
+                                        <CopyOutlined />
+                                    </CopyToClipboard>
+                                    {copyStatus.branchState && <span style={{ marginLeft: '10px', color: 'green' }}>copied!</span>}
+                                </span>
                             </Col>
                             <Col span={6}>
                                 <h6>City</h6>
-                                <p>{(vendor.branchCity)?.toUpperCase()}</p>
+                                <span className='spanDetail'>
+                                    {(vendor.branchCity)?.toUpperCase()}
+                                    <CopyToClipboard text={(vendor.branchCity)?.toUpperCase()} onCopy={() => copyHandle('branchCity')}>
+                                        <CopyOutlined />
+                                    </CopyToClipboard>
+                                    {copyStatus.branchCity && <span style={{ marginLeft: '10px', color: 'green' }}>copied!</span>}
+                                </span>
                             </Col>
                             <Col span={6}>
                                 <h6>Pin</h6>
-                                <p>{vendor.branchPin}</p>
+                                <span className='spanDetail'>
+                                    {vendor.branchPin}
+                                    <CopyToClipboard text={vendor.branchPin} onCopy={() => copyHandle('branchPin')}>
+                                        <CopyOutlined />
+                                    </CopyToClipboard>
+                                    {copyStatus.branchPin && <span style={{ marginLeft: '10px', color: 'green' }}>copied!</span>}
+                                </span>
                             </Col>
                             <Col span={12}>
                                 <h6>Address</h6>
-                                <p>{(vendor.branchAddress)?.toUpperCase()}</p>
+                                <span className='spanDetail'>
+                                    {(vendor.branchAddress)?.toUpperCase()}
+                                    <CopyToClipboard text={(vendor.branchAddress)?.toUpperCase()} onCopy={() => copyHandle('branchAddress')}>
+                                        <CopyOutlined />
+                                    </CopyToClipboard>
+                                    {copyStatus.branchAddress && <span style={{ marginLeft: '10px', color: 'green' }}>copied!</span>}
+                                </span>
                             </Col>
                         </Row>
                     </Card>
@@ -260,23 +423,53 @@ const VendorDetail = () => {
                         <Row gutter={[16, 16]}>
                             <Col span={6}>
                                 <h6>Bank Name <BankOutlined /></h6>
-                                <p>{vendor.bankName}</p>
+                                <span className='spanDetail'>
+                                    {(vendor.bankName)?.toUpperCase()}
+                                    <CopyToClipboard text={(vendor.bankName)?.toUpperCase()} onCopy={() => copyHandle('bankName')}>
+                                        <CopyOutlined />
+                                    </CopyToClipboard>
+                                    {copyStatus.bankName && <span style={{ marginLeft: '10px', color: 'green' }}>copied!</span>}
+                                </span>
                             </Col>
                             <Col span={6}>
                                 <h6>Name of Account</h6>
-                                <p>{vendor.accountName}</p>
+                                <span className='spanDetail'>
+                                    {(vendor.accountName)?.toUpperCase()}
+                                    <CopyToClipboard text={(vendor.accountName)?.toUpperCase()} onCopy={() => copyHandle('accountName')}>
+                                        <CopyOutlined />
+                                    </CopyToClipboard>
+                                    {copyStatus.accountName && <span style={{ marginLeft: '10px', color: 'green' }}>copied!</span>}
+                                </span>
                             </Col>
                             <Col span={6}>
                                 <h6>Account Number</h6>
-                                <p>{vendor.accountNumber}</p>
+                                <span className='spanDetail'>
+                                    {vendor.accountNumber}
+                                    <CopyToClipboard text={vendor.accountNumber} onCopy={() => copyHandle('accountNumber')}>
+                                        <CopyOutlined />
+                                    </CopyToClipboard>
+                                    {copyStatus.accountNumber && <span style={{ marginLeft: '10px', color: 'green' }}>copied!</span>}
+                                </span>
                             </Col>
                             <Col span={6}>
                                 <h6>Confirm Account Number</h6>
-                                <p>{vendor.confirmAccountNumber}</p>
+                                <span className='spanDetail'>
+                                    {vendor.confirmAccountNumber}
+                                    <CopyToClipboard text={vendor.confirmAccountNumber} onCopy={() => copyHandle('confirmAccountNumber')}>
+                                        <CopyOutlined />
+                                    </CopyToClipboard>
+                                    {copyStatus.confirmAccountNumber && <span style={{ marginLeft: '10px', color: 'green' }}>copied!</span>}
+                                </span>
                             </Col>
                             <Col span={6}>
                                 <h6>Bank IFSC Code</h6>
-                                <p>{vendor.bankIFSC}</p>
+                                <span className='spanDetail'>
+                                    {(vendor.bankIFSC)?.toUpperCase()}
+                                    <CopyToClipboard text={(vendor.bankIFSC)?.toUpperCase()} onCopy={() => copyHandle('bankIFSC')}>
+                                        <CopyOutlined />
+                                    </CopyToClipboard>
+                                    {copyStatus.bankIFSC && <span style={{ marginLeft: '10px', color: 'green' }}>copied!</span>}
+                                </span>
                             </Col>
                         </Row>
                     </Card>
@@ -288,7 +481,13 @@ const VendorDetail = () => {
                         <Row gutter={[16, 16]}>
                             <Col span={12}>
                                 <h6>Type of the Firm</h6>
-                                <p>Sole Proprietorship</p>
+                                <span className='spanDetail'>
+                                    {(vendor.firmType)?.toUpperCase()}
+                                    <CopyToClipboard text={(vendor.firmType)?.toUpperCase()} onCopy={() => copyHandle('firmType')}>
+                                        <CopyOutlined />
+                                    </CopyToClipboard>
+                                    {copyStatus.firmType && <span style={{ marginLeft: '10px', color: 'green' }}>copied!</span>}
+                                </span>
                             </Col>
                             <Col span={12}>
                                 <h6>Whether the applicant has any sister convern registerd in this organization, if yes please provide Details</h6>
@@ -313,27 +512,63 @@ const VendorDetail = () => {
                         <Row gutter={[16, 16]}>
                             <Col span={6}>
                                 <h6>Incorporation Certificate</h6>
-                                <p>{(vendor.incorporationCertificate)?.toUpperCase()}</p>
+                                <span className='spanDetail'>
+                                    {(vendor.incorporationCertificate)?.toUpperCase()}
+                                    <CopyToClipboard text={(vendor.incorporationCertificate)?.toUpperCase()} onCopy={() => copyHandle('incorporationCertificate')}>
+                                        <CopyOutlined />
+                                    </CopyToClipboard>
+                                    {copyStatus.incorporationCertificate && <span style={{ marginLeft: '10px', color: 'green' }}>copied!</span>}
+                                </span>
                             </Col>
                             <Col span={6}>
                                 <h6>MSME Certificate</h6>
-                                <p>{(vendor.registeredMSME)?.toUpperCase()}</p>
+                                <span className='spanDetail'>
+                                    {(vendor.registeredMSME)?.toUpperCase()}
+                                    <CopyToClipboard text={(vendor.registeredMSME)?.toUpperCase()} onCopy={() => copyHandle('registeredMSME')}>
+                                        <CopyOutlined />
+                                    </CopyToClipboard>
+                                    {copyStatus.registeredMSME && <span style={{ marginLeft: '10px', color: 'green' }}>copied!</span>}
+                                </span>
                             </Col>
                             <Col span={6}>
                                 <h6>PAN</h6>
-                                <p>{(vendor.pan)?.toUpperCase()}</p>
+                                <span className='spanDetail'>
+                                    {(vendor.pan)?.toUpperCase()}
+                                    <CopyToClipboard text={(vendor.pan)?.toUpperCase()} onCopy={() => copyHandle('pan')}>
+                                        <CopyOutlined />
+                                    </CopyToClipboard>
+                                    {copyStatus.pan && <span style={{ marginLeft: '10px', color: 'green' }}>copied!</span>}
+                                </span>
                             </Col>
                             <Col span={6}>
                                 <h6>Principal Business Proof</h6>
-                                <p>{(vendor.businessAddressProof)?.toUpperCase()}</p>
+                                <span className='spanDetail'>
+                                    {(vendor.businessAddressProof)?.toUpperCase()}
+                                    <CopyToClipboard text={(vendor.businessAddressProof)?.toUpperCase()} onCopy={() => copyHandle('businessAddressProof')}>
+                                        <CopyOutlined />
+                                    </CopyToClipboard>
+                                    {copyStatus.businessAddressProof && <span style={{ marginLeft: '10px', color: 'green' }}>copied!</span>}
+                                </span>
                             </Col>
                             <Col span={6}>
                                 <h6>Bank Account Details(Cancel Cheque etc.)</h6>
-                                <p>{(vendor.bankAccountDetails)?.toUpperCase()}</p>
+                                <span className='spanDetail'>
+                                    {(vendor.bankAccountDetails)?.toUpperCase()}
+                                    <CopyToClipboard text={(vendor.bankAccountDetails)?.toUpperCase()} onCopy={() => copyHandle('bankAccountDetails')}>
+                                        <CopyOutlined />
+                                    </CopyToClipboard>
+                                    {copyStatus.bankAccountDetails && <span style={{ marginLeft: '10px', color: 'green' }}>copied!</span>}
+                                </span>
                             </Col>
                             <Col>
                                 <h6>GST Registration Certificate</h6>
-                                <p>{(vendor.gstCertificate)?.toUpperCase()}</p>
+                                <span className='spanDetail'>
+                                    {(vendor.gstCertificate)?.toUpperCase()}
+                                    <CopyToClipboard text={(vendor.gstCertificate)?.toUpperCase()} onCopy={() => copyHandle('gstCertificate')}>
+                                        <CopyOutlined />
+                                    </CopyToClipboard>
+                                    {copyStatus.gstCertificate && <span style={{ marginLeft: '10px', color: 'green' }}>copied!</span>}
+                                </span>
                             </Col>
                         </Row>
 
