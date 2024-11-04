@@ -11,12 +11,13 @@ import {
     HomeOutlined,
     ShopOutlined,
 } from '@ant-design/icons';
-const { Title, Text } = Typography;
 import { BiSolidFactory } from "react-icons/bi";
 import { HiOutlineBuildingOffice2 } from "react-icons/hi2";
 import { GrUserPolice } from "react-icons/gr";
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../redux_toolkit/authSlice.js';
+import { url } from '../../utils/constent.js';
+const { Title, Text } = Typography;
 const { Header, Sider, Content } = Layout;
 
 
