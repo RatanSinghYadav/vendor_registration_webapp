@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import '../../assets/styles/sendInvite.css';
+import '../../../assets/styles/sendInvite.css';
 import { Button, Col, Input, Row, Space, message } from "antd";
 // import { LuRefreshCw } from '@ant-design/icons';
 import { LuRefreshCw } from "react-icons/lu";
 import Search from "antd/es/input/Search";
 import { IoMdMail } from "react-icons/io";
-import { url } from "../../utils/constent";
+import { url } from "../../../utils/constent";
 
 
 const SendInvite = ({ onInviteSend }) => {
@@ -36,11 +36,13 @@ const SendInvite = ({ onInviteSend }) => {
             const res = await fetch(`${url}/api/vendors/add`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'token': localStorage.getItem('token')
                 },
                 body: JSON.stringify({
                     name: vendorName,
-                    email: vendorEmail
+                    email: vendorEmail,
+                    vendorType: localStorage.getItem('usertype')
                 })
             });
             const getRes = await res.json();
@@ -71,7 +73,7 @@ const SendInvite = ({ onInviteSend }) => {
             <Row className="custome_invite_box_0001A">
                 <div style={{ display: 'flex', gap: '10px', cursor: 'pointer', alignItems: 'center' }}>
                     <Search placeholder="input search text" style={{ width: 200 }} />
-                    <span onClick={handleRefresh} style={{fontSize:'14px',fontWeight:'600'}}>
+                    <span onClick={handleRefresh} style={{ fontSize: '14px', fontWeight: '600' }}>
                         <LuRefreshCw /> Refresh
                     </span>
                 </div>

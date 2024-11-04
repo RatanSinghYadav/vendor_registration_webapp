@@ -5,15 +5,16 @@ import '../../assets/styles/profile.css';
 
 const { Title, Text } = Typography;
 
+
 const Profile = () => {
     return (
         <Card 
             title={
                 <Space>
-                    <Avatar size={80} style={{ backgroundColor: '#87d068', fontSize:'3rem' }}>N</Avatar>
+                    <Avatar size={80} style={{ backgroundColor: '#87d068', fontSize:'3rem' }}>{localStorage.getItem('username')[0]}</Avatar>
                     <div>
-                        <Title level={3} style={{ margin: 0 }}>Naresh Kumar</Title>
-                        <Text type="secondary">Admin</Text>
+                        <Title level={3} style={{ margin: 0 }}>{localStorage.getItem('username')}</Title>
+                        <Text type="secondary">{localStorage.getItem('usertype')}</Text>
                     </div>
                 </Space>
             }
@@ -22,10 +23,10 @@ const Profile = () => {
         >
             {/* User Details */}
             <Descriptions title="User Details" bordered column={2}>
-                <Descriptions.Item label="Name">Naresh Kumar</Descriptions.Item>
-                <Descriptions.Item label="Phone Number">98XXXXX375</Descriptions.Item>
-                <Descriptions.Item label="Email">jhon.xxxxx@gmail.com</Descriptions.Item>
-                <Descriptions.Item label="Role">Admin</Descriptions.Item>
+                <Descriptions.Item label="Name">{localStorage.getItem('username')}</Descriptions.Item>
+                <Descriptions.Item label="Phone Number">-</Descriptions.Item>
+                <Descriptions.Item label="Email">-</Descriptions.Item>
+                <Descriptions.Item label="Role">{localStorage.getItem('usertype')}</Descriptions.Item>
             </Descriptions>
 
             {/* Payment Options */}
@@ -39,7 +40,7 @@ const Profile = () => {
 
             <Descriptions title="Other Details" bordered column={2} style={{ marginTop: '24px' }}>
                 <Descriptions.Item label="Address">
-                    Near XXXXX Colxxy, XXXXXX, Barexxxx, Uttar Praxxxx, India, PIN: 24XXX1
+                    -
                     <EditOutlined style={{ marginLeft: 8, cursor: 'pointer' }} />
                 </Descriptions.Item>
             </Descriptions>

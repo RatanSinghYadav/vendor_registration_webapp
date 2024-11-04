@@ -12,24 +12,32 @@ import {
     ShopOutlined,
 } from '@ant-design/icons';
 const { Title, Text } = Typography;
-
+import { BiSolidFactory } from "react-icons/bi";
+import { HiOutlineBuildingOffice2 } from "react-icons/hi2";
+import { GrUserPolice } from "react-icons/gr";
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../redux_toolkit/authSlice.js';
 const { Header, Sider, Content } = Layout;
+
 
 const Sidebar = () => {
 
     const [collapsed, setCollapsed] = useState(false);
-    const {
-        token: { colorBgContainer, borderRadiusLG },
+    const { token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
 
     const navigate = useNavigate();
     const location = useLocation();
 
+    const dispatch = useDispatch();
+
+    const role = useSelector((state) => state.role);
+
     // Handle logout function
     const handleLogout = () => {
-        // Perform logout logic (clear tokens, redirect to login, etc.)
+        dispatch(logout())
         console.log("Logging out...");
-        navigate('/login');
+        navigate('/');
     };
 
     const siderStyle = {
@@ -43,6 +51,114 @@ const Sidebar = () => {
         scrollbarColor: 'unset',
     };
 
+    const verifyuser = async () => {
+        try {
+            const response = await fetch(`${url}/api/v1/verifyuser`, {
+                method: 'POST',
+                headers: {
+                    'token': localStorage.getItem('token'),
+                    'Content-Type': 'application/json',
+                },
+            });
+            const getResponse = await response.json();
+            console.log(getResponse);
+        }
+        catch (e) {
+            console.log('error in verifying token:', e);
+        }
+    };
+
+    const menuItems = [];
+
+    if (role === 'Admin') {
+        menuItems.push(
+            {
+                key: '0',
+                icon: '',
+                label: '',
+            },
+            {
+                key: '/admin-dashboard',
+                icon: <GrUserPolice />,
+                label: <Link to="/admin-dashboard" style={{ textDecoration: 'none' }}>Admin</Link>,
+            },
+            {
+                key: '/brly-dashboard',
+                icon: <BiSolidFactory />,
+                label: <Link to="/brly-dashboard" style={{ textDecoration: 'none' }}>BRLY</Link>,
+            },
+            {
+                key: '/le2-dashboard',
+                icon: <HiOutlineBuildingOffice2 />,
+                label: <Link to="/le2-dashboard" style={{ textDecoration: 'none' }}>Le2</Link>,
+            }
+        );
+    }
+
+    if (role === 'BRLY') {
+        menuItems.push(
+            {
+                key: '0',
+                icon: '',
+                label: '',
+            },
+            {
+                key: '/brly-dashboard',
+                icon: <BiSolidFactory />,
+                label: <Link to="/brly-dashboard" style={{ textDecoration: 'none' }}>BRLY</Link>,
+            }
+        );
+    }
+
+    if (role === 'LE2') {
+        menuItems.push(
+            {
+                key: '0',
+                icon: '',
+                label: '',
+            },
+            {
+                key: '/le2-dashboard',
+                icon: <HiOutlineBuildingOffice2 />,
+                label: <Link to="/le2-dashboard" style={{ textDecoration: 'none' }}>Le2</Link>,
+            }
+        );
+    }
+
+    // Add common items for all roles
+    menuItems.push(
+        {
+            key: '/vendor/form',
+            icon: <ShopOutlined />,
+            label: <Link to="/vendor/form" style={{ textDecoration: 'none' }}>Vendor Form</Link>,
+        },
+        {
+            key: '/vendor/details',
+            icon: <FileTextOutlined />,
+            label: <Link to="/vendor/details" style={{ textDecoration: 'none' }}>Vendor Details</Link>,
+        },
+        {
+            key: '/profile',
+            icon: <UserOutlined />,
+            label: <Link to="/profile" style={{ textDecoration: 'none' }}>Profile</Link>,
+        },
+        {
+            key: 'logout',
+            icon: <UploadOutlined />,
+            label: (
+                <Button
+                    type="text"
+                    style={{ color: 'white', padding: 0 }}
+                    onClick={handleLogout}
+                >
+                    Logout
+                </Button>
+            ),
+        }
+    );
+
+    const path = window.location.pathname;
+
     return (
         <Layout style={{ minHeight: '100vh' }} theme="dark">
             <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)} style={siderStyle}>
@@ -54,51 +170,12 @@ const Sidebar = () => {
                     theme="dark"
                     mode="inline"
                     defaultSelectedKeys={['1']}
-                    selectedKeys={[location.pathname]} // Dynamically set active menu item based on current route
-                    items={[
-                        {
-                            key: '0',
-                            icon: '',
-                            label: '',
-                        },
-                        {
-                            key: '/',
-                            icon: <HomeOutlined />,
-                            label: <Link to="/" style={{ textDecoration: 'none' }}>Home</Link>,
-                        },
-                        {
-                            key: '/vendor',
-                            icon: <ShopOutlined />,
-                            label: <Link to="/vendor/form" style={{ textDecoration: 'none' }}>Vendor Form</Link>,
-                        },
-                        {
-                            key: '/vendor/details',
-                            icon: <FileTextOutlined />,
-                            label: <Link to="/vendor/details" style={{ textDecoration: 'none' }}>Vendor Details</Link>,
-                        },
-                        {
-                            key: '/profile',
-                            icon: <UserOutlined />,
-                            label: <Link to="/profile" style={{ textDecoration: 'none' }}>Profile</Link>,
-                        },
-                        {
-                            key: 'logout',
-                            icon: <UploadOutlined />,
-                            label: (
-                                <Button
-                                    type="text"
-                                    style={{ color: 'white', padding: 0 }}
-                                    onClick={handleLogout}
-                                >
-                                    Logout
-                                </Button>
-                            ),
-                        },
-                    ]}
+                    selectedKeys={[location.pathname]}
+                    items={menuItems}
                 />
                 <div className="version">
                     VERSION
-                     0.2.2
+                    2.1.8
                 </div>
             </Sider>
             <Layout style={{ marginLeft: collapsed ? 80 : 200, transition: 'margin-left 0.3s ease' }}>
@@ -106,27 +183,34 @@ const Sidebar = () => {
                     style={{
                         padding: 0,
                         background: colorBgContainer,
-                        display:'flex',
-                        justifyContent:'space-between'
+                        display: 'flex',
+                        justifyContent: 'space-between'
                     }}
                 >
-                        <Button
-                            type="text"
-                            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-                            onClick={() => setCollapsed(!collapsed)}
-                            style={{
-                                fontSize: '16px',
-                                width: 64,
-                                height: 64,
-                            }}
-                        />
-                        <Space>
-                            <Avatar size={40} style={{ backgroundColor: '#87d068', }}>N</Avatar>
-                            <div>
-                                <Title level={5} style={{ margin: "20px 20px -25px 0px"}}>Naresh Kumar</Title>
-                                <Text type="secondary">Admin</Text>
-                            </div>
-                        </Space>
+                    <Button
+                        type="text"
+                        icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                        onClick={() => setCollapsed(!collapsed)}
+                        style={{
+                            fontSize: '16px',
+                            width: 64,
+                            height: 64,
+                        }}
+                    />
+                    <span>
+                        {
+                            path === '/admin-dashboard' ? <span style={{ fontWeight: '600' }}>Admin Dashboard</span> :
+                                path === '/brly-dashboard' ? <span style={{ fontWeight: '600' }}>BRLY Dashboard</span> :
+                                    path === '/le2-dashboard' ? <span style={{ fontWeight: '600' }}>LE2 Dashboard</span> : null
+                        }
+                    </span>
+                    <Space>
+                        <Avatar size={40} style={{ backgroundColor: '#87d068', }}>{localStorage.getItem('username')[0]}</Avatar>
+                        <div>
+                            <Title level={5} style={{ margin: "20px 20px -25px 0px" }}>{localStorage.getItem('username')}</Title>
+                            <Text type="secondary">{localStorage.getItem('usertype')}</Text>
+                        </div>
+                    </Space>
                 </Header>
                 <Content
                     style={{
@@ -148,4 +232,3 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
-// 

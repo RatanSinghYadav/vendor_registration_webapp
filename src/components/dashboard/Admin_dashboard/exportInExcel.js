@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { url } from '../../utils/constent';
 import { FileExcelOutlined } from '@ant-design/icons';
 import * as XLSX from 'xlsx';
 import { Link } from 'react-router-dom';
+import { url } from '../../../utils/constent';
 
 const ExportInExcel = ({ id }) => {
     const [vendor, setVendor] = useState([]);
@@ -11,7 +11,8 @@ const ExportInExcel = ({ id }) => {
         const res = await fetch(`${url}/api/vendor/details/${id}`, {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'token': localStorage.getItem('token')
             }
         });
         const getData = await res.json();
