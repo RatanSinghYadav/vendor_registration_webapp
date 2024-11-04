@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import '../../assets/styles/sendInvite.css';
+import '../../../assets/styles/sendInvite.css';
 import { Button, Flex, Space, Table, Tag, message } from "antd";
-import SendInvite from './sendInvite';
-import '../../App.css';
+import SendInvite from '../Admin_dashboard/sendInvite';
+import '../../../App.css';
 import { useNavigate, useParams } from 'react-router-dom';
-import Status from './status';
+import Status from '../Admin_dashboard/status';
 import { FileTextOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { url } from '../../utils/constent';
 import ExportInExcel from './exportInExcel';
-
+import { url } from '../../../utils/constent';
 
 const columns = (onDelete, onDetail, onEdit) => [
     // {
@@ -74,7 +73,7 @@ const columns = (onDelete, onDetail, onEdit) => [
                         </>
 
                     }
-                    <Tag style={{ cursor: 'pointer' }} color='cyan'><ExportInExcel id={record._id} /></Tag>
+                    {/* <Tag style={{ cursor: 'pointer' }} color='cyan'><ExportInExcel id={record._id} /></Tag> */}
                     {record.status === "approved" ?
                         <>
                             <Tag color='default' style={{ cursor: 'pointer' }}><DeleteOutlined style={{ fontSize: '12px', marginBottom: '4px', marginRight: '4px' }} /> Delete</Tag>
@@ -110,17 +109,18 @@ const columns = (onDelete, onDetail, onEdit) => [
     },
 ];
 
-const Dashboard = () => {
+const LE2_Dashboard = () => {
     const [vendors, setVendors] = useState([]);
     const [loading, setLoading] = useState(false);
 
     const fetchVendors = async () => {
         setLoading(true);  // Set loading state
         try {
-            const response = await fetch(`${url}/api/vendors`, {
+            const response = await fetch(`${url}/api/vendors/${"LE2"}`, {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
+                    'token': localStorage.getItem('token')
                 }
             });
             const getData = await response.json();
@@ -149,6 +149,7 @@ const Dashboard = () => {
                 method: "DELETE",
                 headers: {
                     'Content-Type': 'application/json',
+                    'token': localStorage.getItem('token')
                 }
             });
             message.success("Vendor deleted successfully!");
@@ -182,4 +183,4 @@ const Dashboard = () => {
     );
 };
 
-export default Dashboard;
+export default LE2_Dashboard;

@@ -10,6 +10,7 @@ const EditVendor = () => {
     const [vendor, setVendor] = useState([{
         // Company Profile
         vendorCode: "",
+        vendorName:"",
         companyName: "",
         proprietorName: "",
         businessNature: "",
@@ -76,7 +77,10 @@ const EditVendor = () => {
         try {
             const res = await fetch(`${url}/api/vendor/details/${id}`, {
                 method: 'GET',
-                headers: { 'Content-Type': 'application/json' }
+                headers: {
+                    'Content-Type': 'application/json',
+                    'token': localStorage.getItem('token')
+                }
             });
             if (!res.ok) {
                 throw new Error('Failed to fetch vendor data');
@@ -97,11 +101,13 @@ const EditVendor = () => {
             const res = await fetch(`${url}/api/vendor/editDetails/${id}`, {
                 method: "PATCH",
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'token': localStorage.getItem('token')
                 },
                 body: JSON.stringify({
                     // Company Profile
                     vendorCode: vendor.vendorCode, companyName: vendor.companyName,
+                    vendorName:vendor.vendorName,
                     proprietorName: vendor.proprietorName, businessNature: vendor.businessNature,
                     turnoverInLakhs: vendor.turnoverInLakhs, yearsInBusiness: vendor.yearsInBusiness,
                     workspaceArea: vendor.workspaceArea,
@@ -172,6 +178,10 @@ const EditVendor = () => {
                             <Col span={6}>
                                 <h6>Vendor Code</h6>
                                 <Input value={vendor.vendorCode} name='vendorCode' onChange={handleChange} />
+                            </Col>
+                            <Col span={6}>
+                                <h6>Vendor Name</h6>
+                                <Input value={vendor.name} name='vendorName' onChange={handleChange} />
                             </Col>
                             <Col span={6}>
                                 <h6>Name of the Company</h6>
@@ -372,7 +382,7 @@ const EditVendor = () => {
                             </Col>
                         </Row>
 
-                        {/* Downloaded files */} 
+                        {/* Downloaded files */}
                         <Divider orientation='left' orientationMargin={0} style={{ color: '#334155' }}>Files</Divider>
                         <Row gutter={[16, 16]}>
                             <Col span={6}>
@@ -411,7 +421,7 @@ const EditVendor = () => {
                                     Open
                                 </Button>
                             </Col>
-                            
+
                         </Row>
                     </Card>
 

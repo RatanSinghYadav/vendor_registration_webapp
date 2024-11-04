@@ -38,7 +38,10 @@ const VendorDetail = () => {
         try {
             const res = await fetch(`${url}/api/vendor/details/${id}`, {
                 method: 'GET',
-                headers: { 'Content-Type': 'application/json' }
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'token': localStorage.getItem('token')
+                }
             });
             if (!res.ok) {
                 throw new Error('Failed to fetch vendor data');
@@ -61,12 +64,13 @@ const VendorDetail = () => {
 
 
     const approvedByPurchase = async () => {
-        console.log(approvedBy);
+        // console.log(approvedBy);
         try {
             const res = await fetch(`${url}/api/vendor/purchase/${id}`, {
                 method: "POST",
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'token': localStorage.getItem('token')
                 },
                 body: JSON.stringify({
                     purchaseType: purchaseType,
@@ -94,7 +98,8 @@ const VendorDetail = () => {
         const res = await fetch(`${url}/api/vendor/purchase/bankDetailApproved/${id}`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'token': localStorage.getItem('token')
             }
         })
         const getRes = await res.json();
@@ -107,7 +112,8 @@ const VendorDetail = () => {
         const res = await fetch(`${url}/api/vendor/purchase/approvedVendor/${id}`, {
             method: "POST",
             headers: {
-                "Content-Type": 'application/json'
+                "Content-Type": 'application/json',
+                'token': localStorage.getItem('token')
             }
         })
         const getRes = await res.json();
