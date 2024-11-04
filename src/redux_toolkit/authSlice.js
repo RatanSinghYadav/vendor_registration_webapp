@@ -17,9 +17,9 @@ const AuthSlice = createSlice({
             state.role = action.payload
         },
         logout: (state, action) => {
-            state.token = null,
-                state.role = null,
-                localStorage.clear()
+            state.token = null;
+            state.role = null;
+            localStorage.clear();
         }
     }
 })
