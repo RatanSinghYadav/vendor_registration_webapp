@@ -16,7 +16,7 @@ const Login = () => {
 
     const onFinish = async (values) => {
         setLoading(true);
-        console.log('Received values of form: ', values);
+        // console.log('Received values of form: ', values);
 
         try {
             const res = await fetch(`${url}/api/v1/user/login`, {
@@ -28,7 +28,7 @@ const Login = () => {
             });
             const data = await res.json();
 
-            console.log(data);
+            console.log(data.userlogin);
 
             const role = data.userlogin.role;
 
@@ -36,7 +36,9 @@ const Login = () => {
                 message.success("Login successful!");
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('usertype', data.userlogin.role);
-                localStorage.setItem('username', data.userlogin.userName)
+                localStorage.setItem('username', data.userlogin.userName);
+                localStorage.setItem('phone', data.userlogin.phone);
+                localStorage.setItem('email', data.userlogin.email);
 
                 //  set role and token in redux store
                 dispatch(setToken(data.token));
@@ -48,7 +50,7 @@ const Login = () => {
                 } else if (role === 'LE2') {
                     navigate('/le2-dashboard');
                 } else if (role === 'BRLY') {
-                    navigate('brly-dashboard');
+                    navigate('/brly-dashboard');
                 }
 
             } else {
