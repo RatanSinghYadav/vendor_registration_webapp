@@ -24,8 +24,8 @@ const Profile = () => {
             {/* User Details */}
             <Descriptions title="User Details" bordered column={2}>
                 <Descriptions.Item label="Name">{localStorage.getItem('username')}</Descriptions.Item>
-                <Descriptions.Item label="Phone Number">-</Descriptions.Item>
-                <Descriptions.Item label="Email">-</Descriptions.Item>
+                <Descriptions.Item label="Phone Number">{localStorage.getItem('phone')}</Descriptions.Item>
+                <Descriptions.Item label="Email">{localStorage.getItem('email')}</Descriptions.Item>
                 <Descriptions.Item label="Role">{localStorage.getItem('usertype')}</Descriptions.Item>
             </Descriptions>
 
