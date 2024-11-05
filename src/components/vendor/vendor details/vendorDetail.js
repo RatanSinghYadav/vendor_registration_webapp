@@ -20,6 +20,8 @@ const VendorDetail = () => {
 
     const { id } = useParams('');
 
+    const token = localStorage.getItem('token')
+
     // copy functionality 
     const [copyStatus, setCopyStatus] = useState({});
 

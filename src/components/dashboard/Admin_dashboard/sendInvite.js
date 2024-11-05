@@ -22,10 +22,10 @@ const SendInvite = ({ onInviteSend }) => {
 
     const sendInvite = async () => {
         // Validation checks before sending invite
-        if (!vendorName.trim()) {
-            message.error("Vendor name is required");
-            return;
-        }
+        // if (!vendorName.trim()) {
+        //     message.error("Vendor name is required");
+        //     return;
+        // }
 
         if (!vendorEmail.trim() || !validateEmail(vendorEmail)) {
             message.error("Valid vendor email is required");

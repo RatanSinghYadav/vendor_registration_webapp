@@ -24,8 +24,8 @@ const columns = (onDelete, onDetail, onEdit) => [
     },
     {
         title: 'Vendor Name',
-        dataIndex: 'name',
-        key: 'name',
+        dataIndex: 'companyName',
+        key: 'companyName',
     },
     {
         title: 'Email',
