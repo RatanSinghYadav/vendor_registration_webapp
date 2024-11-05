@@ -26,7 +26,7 @@ const Signup = () => {
         const { userName, phone, email, password, cPassword, role } = signup;
 
         // Simple validation
-        if (!userName || !phone || !email || !password || !cPassword || !role) {
+        if (!userName || !email || !password || !cPassword || !role) {
             alert("Please fill all the fields.");
             return;
         }

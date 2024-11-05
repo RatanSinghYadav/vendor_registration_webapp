@@ -33,7 +33,7 @@ const Profile = () => {
             <Descriptions title="Other Details" bordered column={2} style={{ marginTop: '24px' }}>
                 <Descriptions.Item label="Account Status">Active</Descriptions.Item>
                 <Descriptions.Item label="External">-</Descriptions.Item>
-                <Descriptions.Item label="Department Type">Purchase</Descriptions.Item>
+                <Descriptions.Item label="Department Type">{localStorage.getItem('department')}</Descriptions.Item>
             </Descriptions>
 
             {/* Business Details */}

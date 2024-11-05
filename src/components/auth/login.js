@@ -39,6 +39,7 @@ const Login = () => {
                 localStorage.setItem('username', data.userlogin.userName);
                 localStorage.setItem('phone', data.userlogin.phone);
                 localStorage.setItem('email', data.userlogin.email);
+                localStorage.setItem('department', data.userlogin.department);
 
                 //  set role and token in redux store
                 dispatch(setToken(data.token));
