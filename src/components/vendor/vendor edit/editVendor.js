@@ -7,10 +7,10 @@ import '../../../assets/styles/vendorDetail.css';
 import { url } from '../../../utils/constent';
 
 const EditVendor = () => {
-    const [vendor, setVendor] = useState([{
+    const [vendor, setVendor] = useState({
         // Company Profile
         vendorCode: "",
-        vendorName:"",
+        vendorName: "",
         companyName: "",
         proprietorName: "",
         businessNature: "",
@@ -60,10 +60,10 @@ const EditVendor = () => {
         purchaseCategory: "",
         paymentTerms: "",
         vendorApprovedBy: "",
-    }]);
+    });
     const [loading, setLoading] = useState(true);
 
-    const { id } = useParams('');
+    const { id } = useParams();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -107,7 +107,7 @@ const EditVendor = () => {
                 body: JSON.stringify({
                     // Company Profile
                     vendorCode: vendor.vendorCode, companyName: vendor.companyName,
-                    vendorName:vendor.vendorName,
+                    vendorName: vendor.vendorName,
                     proprietorName: vendor.proprietorName, businessNature: vendor.businessNature,
                     turnoverInLakhs: vendor.turnoverInLakhs, yearsInBusiness: vendor.yearsInBusiness,
                     workspaceArea: vendor.workspaceArea,
@@ -139,7 +139,7 @@ const EditVendor = () => {
             })
             if (res.ok) {
                 const getData = await res.json();
-                console.log(getData);
+                // console.log(getData);
                 message.success("Vendor updated successfully!");
                 getVendorById();
             } else {
@@ -181,7 +181,7 @@ const EditVendor = () => {
                             </Col>
                             <Col span={6}>
                                 <h6>Vendor Name</h6>
-                                <Input value={vendor.name} name='vendorName' onChange={handleChange} />
+                                <Input value={vendor.vendorName} name='vendorName' onChange={handleChange} />
                             </Col>
                             <Col span={6}>
                                 <h6>Name of the Company</h6>
