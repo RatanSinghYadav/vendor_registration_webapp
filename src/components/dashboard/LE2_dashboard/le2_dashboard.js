@@ -4,7 +4,7 @@ import { Button, Flex, Space, Table, Tag, message } from "antd";
 import SendInvite from '../Admin_dashboard/sendInvite';
 import '../../../App.css';
 import { useNavigate, useParams } from 'react-router-dom';
-import Status from '../Admin_dashboard/status';
+import Status from '../Admin_dashboard/status.js';
 import { FileTextOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import ExportInExcel from './exportInExcel';
 import { url } from '../../../utils/constent';
@@ -102,10 +102,25 @@ const columns = (onDelete, onDetail, onEdit) => [
         render: (item, index) => {
             return (
                 <>
-                    <Status status={item.status} />
+                    <Status status={item.status} vendor={item} />
                 </>
             )
-        }
+        },
+        filters: [
+            {
+                text: 'Invite Sent',
+                value: "pending"
+            },
+            {
+                text: "Submitted",
+                value: "complete"
+            },
+            {
+                text: "Approved",
+                value: "approved"
+            }
+        ],
+        onFilter: (value, record) => record.status === value,
     },
 ];
 
@@ -178,6 +193,9 @@ const LE2_Dashboard = () => {
                 dataSource={vendors.map((vendor) => ({ ...vendor, key: vendor.id }))}
                 bordered
                 loading={loading}
+                showSorterTooltip={{
+                    target: 'sorter-icon',
+                }}
             />
         </>
     );

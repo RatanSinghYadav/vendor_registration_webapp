@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import '../../../assets/styles/sendInvite.css';
-import { Button, Flex, Space, Table, Tag, message } from "antd";
+import { Button, Flex, Space, Table, Tag, message, Input } from "antd";
+import { SearchOutlined } from '@ant-design/icons';
 import SendInvite from './sendInvite';
 import '../../../App.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import Status from './status';
-
+import Highlighter from 'react-highlight-words';
 import { FileTextOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import ExportInExcel from './exportInExcel';
 import { url } from '../../../utils/constent';
 
-const columns = (onDelete, onDetail, onEdit) => [
+const columns = (onDelete, onDetail, onEdit, getColumnSearchProps) => [
     // {
     //     title: 'Vendor Id',
     //     render: (text, record, index) => record._id.slice(0, 10).toUpperCase(),
@@ -19,17 +20,21 @@ const columns = (onDelete, onDetail, onEdit) => [
     {
         title: 'Vendor Code',
         render: (text, record, index) => record.vendorCode === null ? "-" : record.vendorCode,
-        key: 'index',
+        key: 'vendorCode',
+        dataIndex: 'vendorCode',
+        ...getColumnSearchProps('vendorCode', 'vendor code')
     },
     {
         title: 'Vendor Name',
         dataIndex: 'companyName',
         key: 'companyName',
+        ...getColumnSearchProps('companyName', 'company name')
     },
     {
         title: 'Email',
         dataIndex: 'email',
         key: 'email',
+        ...getColumnSearchProps('email', 'email')
     },
     {
         title: 'Created At',
@@ -94,7 +99,8 @@ const columns = (onDelete, onDetail, onEdit) => [
     {
         title: "Approved By",
         dataIndex: 'vendorApprovedBy',
-        key: 'vendorApprovedBy'
+        key: 'vendorApprovedBy',
+        ...getColumnSearchProps('vendorApprovedBy', 'approved by')
     },
     {
         title: 'Status',
@@ -103,10 +109,25 @@ const columns = (onDelete, onDetail, onEdit) => [
         render: (item, index) => {
             return (
                 <>
-                    <Status status={item.status} />
+                    <Status status={item.status} vendor={item} />
                 </>
             )
-        }
+        },
+        filters: [
+            {
+                text: 'Invite Sent',
+                value: "pending"
+            },
+            {
+                text: "Submitted",
+                value: "complete"
+            },
+            {
+                text: "Approved",
+                value: "approved"
+            }
+        ],
+        onFilter: (value, record) => record.status === value,
     },
 ];
 
@@ -172,12 +193,141 @@ const Admin_Dashboard = () => {
         navigate(`/vendor/edit/${id}`)
     }
 
+    // // // //
+
+    const [searchText, setSearchText] = useState('');
+    const [searchedColumn, setSearchedColumn] = useState('');
+    const searchInput = useRef(null);
+
+    const handleSearch = (selectedKeys, confirm, dataIndex) => {
+        confirm();
+        setSearchText(selectedKeys[0]);
+        setSearchedColumn(dataIndex);
+    };
+
+    const handleReset = (clearFilters) => {
+        clearFilters();
+        setSearchText('');
+    };
+
+    console.log(searchText);
+
+    const getColumnSearchProps = (dataIndex, title) => (
+        {
+            filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
+                <div
+                    style={{
+                        padding: 8,
+                    }}
+                    onKeyDown={(e) => e.stopPropagation()}
+                >
+                    <Input
+                        ref={searchInput}
+                        placeholder={`Search ${title}`}
+                        value={selectedKeys[0]}
+                        onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+                        onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                        style={{
+                            marginBottom: 8,
+                            display: 'block',
+                        }}
+                    />
+                    <Space>
+                        <Button
+                            type="primary"
+                            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                            icon={<SearchOutlined />}
+                            size="small"
+                            style={{
+                                width: 90,
+                            }}
+                        >
+                            Search
+                        </Button>
+                        <Button
+                            onClick={() => clearFilters && handleReset(clearFilters)}
+                            size="small"
+                            style={{
+                                width: 90,
+                            }}
+                        >
+                            Reset
+                        </Button>
+                        <Button
+                            type="link"
+                            size="small"
+                            onClick={() => {
+                                confirm({
+                                    closeDropdown: false,
+                                });
+                                setSearchText(selectedKeys[0]);
+                                setSearchedColumn(dataIndex);
+                            }}
+                        >
+                            Filter
+                        </Button>
+                        <Button
+                            type="link"
+                            size="small"
+                            onClick={() => {
+                                close();
+                            }}
+                        >
+                            close
+                        </Button>
+                    </Space>
+                </div>
+            ),
+            filterIcon: (filtered) => (
+                <SearchOutlined
+                    style={{
+                        color: filtered ? '#1677ff' : undefined,
+                    }}
+                />
+            ),
+            onFilter: (value, record) => {
+                const cellValue = record[dataIndex];
+                return cellValue
+                    ? cellValue.toString().toLowerCase().includes(value.toLowerCase())
+                    : false;
+            },
+
+
+            filterDropdownProps: {
+                onOpenChange(open) {
+                    if (open) {
+                        setTimeout(() => searchInput.current?.select(), 100);
+                    }
+                },
+            },
+            render: (text) =>
+                searchedColumn === dataIndex ? (
+                    <Highlighter
+                        highlightStyle={{
+                            backgroundColor: '#ffc069',
+                            padding: 0,
+                        }}
+                        searchWords={[searchText]}
+                        autoEscape
+                        textToHighlight={text ? text.toString() : ''}
+                    />
+                ) : (
+                    text
+                ),
+        });
+
+    // // // //
+
     return (
         <>
             <SendInvite onInviteSend={handleInviteSend} />
             <Table
-                columns={columns(handleDelete, getVendorById, editVendorById)}
-                dataSource={vendors.map((vendor) => ({ ...vendor, key: vendor.id }))}
+                columns={columns(handleDelete, getVendorById, editVendorById, getColumnSearchProps)}
+                dataSource={vendors.map((vendor) => ({ ...vendor, key: vendor._id }))}
+                // onChange={onChange}
+                showSorterTooltip={{
+                    target: 'sorter-icon',
+                }}
                 bordered
                 loading={loading}
             />

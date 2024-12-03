@@ -104,11 +104,26 @@ const columns = (onDelete, onDetail, onEdit) => [
         render: (item, index) => {
             return (
                 <>
-                    <Status status={item.status} />
+                    <Status status={item.status} vendor={item} />
                 </>
             )
-        }
-    },
+        },
+        filters: [
+            {
+                text: 'Invite Sent',
+                value: "pending"
+            },
+            {
+                text: "Submitted",
+                value: "complete"
+            },
+            {
+                text: "Approved",
+                value: "approved"
+            }
+        ],
+        onFilter: (value, record) => record.status === value,
+    }
 ];
 
 const BRLY_Dashboard = () => {
@@ -182,6 +197,9 @@ const BRLY_Dashboard = () => {
                 dataSource={vendors.map((vendor) => ({ ...vendor, key: vendor.id }))}
                 bordered
                 loading={loading}
+                showSorterTooltip={{
+                    target: 'sorter-icon',
+                }}
             />
         </>
     );
