@@ -31,7 +31,7 @@ const Status = ({ status }) => {
                 {status === "pending" ?
                     "Invite Sent"
                     : status === "complete" ?
-                        "Filled"
+                        "Submitted"
                         : status === 'approved' ?
                             "Approved" : null
                 }
