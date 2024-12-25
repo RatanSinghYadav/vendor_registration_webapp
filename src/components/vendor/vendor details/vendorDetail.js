@@ -1,4 +1,4 @@
-import { Card, Row, Col, Divider, Button, Tag, Input, message, Spin } from 'antd';
+import { Card, Row, Col, Divider, Button, Tag, Input, message, Spin, Tooltip } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { MailOutlined, MobileOutlined, PhoneOutlined, BankOutlined, EyeOutlined, CopyOutlined } from '@ant-design/icons';
 import { IoMdAttach } from "react-icons/io";
@@ -7,6 +7,8 @@ import '../../../assets/styles/vendorDetail.css';
 import { url } from '../../../utils/constent.js';
 import { CheckCircleFilled } from '@ant-design/icons';
 import CopyToClipboard from 'react-copy-to-clipboard';
+import { BiSolidPurchaseTag } from "react-icons/bi";
+import { FaLaptopCode } from "react-icons/fa";
 
 const VendorDetail = () => {
     const [vendor, setVendor] = useState([]);
@@ -17,6 +19,12 @@ const VendorDetail = () => {
     const [bankDetail, setBankDetail] = useState('');
     const [approvedVendor, setApprovedVendor] = useState('');
     const [loading, setLoading] = useState(true);
+    const [vendorCode, setVendorCode] = useState('');
+    const [approvedByFinance, setApprovedByFinance] = useState('');
+    const [remark, setRemark] = useState('');
+
+    console.log(approvedByFinance, remark);
+    console.log(vendor);
 
     const { id } = useParams('');
 
@@ -40,7 +48,7 @@ const VendorDetail = () => {
         try {
             const res = await fetch(`${url}/api/vendor/details/${id}`, {
                 method: 'GET',
-                headers: { 
+                headers: {
                     'Content-Type': 'application/json',
                     'token': localStorage.getItem('token')
                 }
@@ -49,14 +57,17 @@ const VendorDetail = () => {
                 throw new Error('Failed to fetch vendor data');
             }
             const getData = await res.json();
+            // console.log(getData.vendor.approveBankDetail)
             setVendor(getData.vendor);
-            console.log(getData)
             setPurchaseType(getData.vendor.purchaseType);
             setPurchaseCategory(getData.vendor.purchaseCategory);
             setPaymentTerms(getData.vendor.paymentTerms);
             setBankDetail(getData.vendor.approveBankDetail)
             setApprovedVendor(getData.vendor.vendorApproved);
-            setApprovedBy(getData.vendor.vendorApprovedBy)
+            setApprovedBy(getData.vendor.vendorApprovedBy);
+            setVendorCode(getData.vendor.vendorCode)
+            setApprovedByFinance(getData.vendor.approvedByFinance);
+            setRemark(getData.vendor.remark);
         } catch (error) {
             message.error("Error to get vendor data");
         } finally {
@@ -69,7 +80,7 @@ const VendorDetail = () => {
         // console.log(approvedBy);
         try {
             const res = await fetch(`${url}/api/vendor/purchase/${id}`, {
-                method: "POST",
+                method: "PATCH",
                 headers: {
                     'Content-Type': 'application/json',
                     'token': localStorage.getItem('token')
@@ -84,10 +95,32 @@ const VendorDetail = () => {
 
             const getData = await res.json();
             console.log(getData);
-            message.success("Final Submit vendor Details!")
+            message.success("Final Submit vendor Details!");
         } catch (error) {
             console.log("Error to approved vendor.", error);
             message.error("Error to approved vendor.");
+        }
+    }
+
+    const updateVendorCode = async () => {
+        console.log(vendorCode);
+        try {
+            const res = await fetch(`${url}/api/vendor/updateVendorCode/${id}`, {
+                method: "PATCH",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'token': localStorage.getItem('token')
+                },
+                body: JSON.stringify({
+                    vendorCode: vendorCode
+                })
+            })
+            const getData = await res.json();
+            console.log(getData);
+            message.success("Vendor Code Updated!");
+        } catch (error) {
+            console.log("Error to update vendor code.", error);
+            message.error("Error to update vendor code.");
         }
     }
 
@@ -105,7 +138,7 @@ const VendorDetail = () => {
             }
         })
         const getRes = await res.json();
-        setBankDetail(getRes.vendor.approveBankDetail)
+        setBankDetail(getRes.vendor.approveBankDetail);
         message.success("Bank Details Approved!");
     }
 
@@ -116,7 +149,11 @@ const VendorDetail = () => {
             headers: {
                 "Content-Type": 'application/json',
                 'token': localStorage.getItem('token')
-            }
+            },
+            body: JSON.stringify({
+                approvedByFinance: approvedByFinance,
+                remark: remark
+            })
         })
         const getRes = await res.json();
         setApprovedVendor(getRes.vendor.vendorApproved)
@@ -440,7 +477,7 @@ const VendorDetail = () => {
                                 </span>
                             </Col>
                             <Col span={6}>
-                                <h6>Name of Account</h6>
+                                <h6>Account Holder Name</h6>
                                 <span className='spanDetail'>
                                     {(vendor.accountName)?.toUpperCase()}
                                     <CopyToClipboard text={(vendor.accountName)?.toUpperCase()} onCopy={() => copyHandle('accountName')}>
@@ -624,9 +661,8 @@ const VendorDetail = () => {
 
                     {/* For Purchase  */}
                     <Divider />
-                    <Card>
+                    <Card title={<>Purchase Details <BiSolidPurchaseTag /></>}>
                         <Row gutter={[16, 16]}>
-
                             <Col span={4}>
                                 <h6>Purchase Type</h6>
                                 <Input value={purchaseType} onChange={(e) => setPurchaseType(e.target.value)} placeholder='Purchase Type' />
@@ -645,29 +681,83 @@ const VendorDetail = () => {
                             </Col>
                             <div style={{ display: 'flex', alignItems: 'end', justifyContent: 'space-between' }}>
                                 <Col span={6}>
-                                    <Button onClick={approvedByPurchase} type='primary'>Final Submit</Button>
+                                    {vendor.approveBankDetail === "pending" ?
+                                        <Tooltip title="Approve the bank details first.">
+                                            <Button disabled type='primary'>Final Submit</Button>
+                                        </Tooltip>
+                                        :
+                                        <Button onClick={approvedByPurchase} type='primary'>Final Submit</Button>
+                                    }
                                 </Col>
                             </div>
                         </Row>
                     </Card>
-                    <Divider>{
-                        approvedVendor === 'pending' ?
-                            <>
-                                <Button onClick={vendorApprovedById}><CheckCircleFilled /> Vendor Approve</Button>
-                            </>
-                            :
-                            <>
-                                <Button
-                                    color='success' style={{
-                                        color: "#10b981",
-                                        borderColor: "#10b981",
-                                        backgroundColor: '#ecfdf5',
-                                    }}
-                                >
-                                    <CheckCircleFilled style={{ color: '#10b981', border: '1px solid white' }} />Vendor Approved
-                                </Button>
-                            </>
-                    }</Divider>
+
+                    <Divider />
+                    {/* Finance Department */}
+
+                    <Card title={<>Finance Department <FaLaptopCode /></>}>
+                        <Row gutter={[16, 16]}>
+                            <Col span={4}>
+                                <h6>Approve By Finance Manager</h6>
+                                <Input value={approvedByFinance} onChange={(e) => setApprovedByFinance(e.target.value)} placeholder='Name' />
+                            </Col>
+                            <Col span={4}>
+                                <h6>Remark</h6>
+                                <Input value={remark} onChange={(e) => setRemark(e.target.value)} placeholder='remark' />
+                            </Col>
+                            <div style={{ display: 'flex', alignItems: 'end', justifyContent: 'space-between' }}>
+                                <Col span={6}>
+                                    {
+                                        approvedVendor === 'pending' ?
+                                            <>
+                                                <Button onClick={vendorApprovedById}><CheckCircleFilled /> Vendor Approve</Button>
+                                            </>
+                                            :
+                                            <>
+                                                <Button
+                                                    color='success' style={{
+                                                        color: "#10b981",
+                                                        borderColor: "#10b981",
+                                                        backgroundColor: '#ecfdf5',
+                                                    }}
+                                                >
+                                                    <CheckCircleFilled style={{ color: '#10b981', border: '1px solid white' }} />Vendor Approved
+                                                </Button>
+                                            </>
+                                    }
+                                </Col>
+                            </div>
+                        </Row>
+                    </Card>
+
+                    <Divider />
+
+                    {/* IT Department */}
+                    {localStorage.getItem('usertype') === 'Admin' ?
+                        <Card title={<>IT Department <FaLaptopCode /></>}>
+                            <Row gutter={[16, 16]}>
+                                <Col span={4}>
+                                    <h6>Vendor Code</h6>
+                                    <Input value={vendorCode} onChange={(e) => setVendorCode(e.target.value)} placeholder='vendor code' />
+                                </Col>
+                                <Col span={4}>
+                                    <h6>Code Created By</h6>
+                                    <Input placeholder='name' />
+                                </Col>
+                                <div style={{ display: 'flex', alignItems: 'end', justifyContent: 'space-between' }}>
+                                    <Col span={6}>
+                                        <Tooltip title={vendor.companyName}>
+                                            <Button onClick={updateVendorCode} type='primary'>Update Vendor Code</Button>
+                                        </Tooltip>
+                                    </Col>
+                                </div>
+                            </Row>
+                        </Card>
+                        :
+                        null
+                    }
+
                 </>
             )}
 

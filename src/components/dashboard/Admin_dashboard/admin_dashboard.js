@@ -210,8 +210,6 @@ const Admin_Dashboard = () => {
         setSearchText('');
     };
 
-    console.log(searchText);
-
     const getColumnSearchProps = (dataIndex, title) => (
         {
             filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (

@@ -181,7 +181,7 @@ const EditVendor = () => {
                             </Col>
                             <Col span={6}>
                                 <h6>Vendor Name</h6>
-                                <Input value={vendor.vendorName} name='vendorName' onChange={handleChange} />
+                                <Input value={vendor.name} name='vendorName' onChange={handleChange} />
                             </Col>
                             <Col span={6}>
                                 <h6>Name of the Company</h6>
@@ -308,7 +308,7 @@ const EditVendor = () => {
                                 <Input value={vendor.bankName} name='bankName' onChange={handleChange} />
                             </Col>
                             <Col span={6}>
-                                <h6>Name of Account</h6>
+                                <h6>Account Holder Name</h6>
                                 <Input value={vendor.accountName} name='accountName' onChange={handleChange} />
                             </Col>
                             <Col span={6}>

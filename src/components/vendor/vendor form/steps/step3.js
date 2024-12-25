@@ -96,12 +96,12 @@ const Step3 = () => {
                             />
                         </Form.Item>
                         <Form.Item
-                            label='36. Name of Account'
+                            label='36. Account Holder Name'
                             name='accountName'
                             // rules={[{ required: true, message: 'Account Name required!' }]}
                         >
                             <Input
-                                placeholder="Name of Account"
+                                placeholder="Account Holder Name"
                             />
                         </Form.Item>
                         <Form.Item
