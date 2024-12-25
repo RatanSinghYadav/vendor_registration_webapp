@@ -94,7 +94,7 @@ const Status = ({ status, vendor }) => {
 
     // Debugging ke liye vendorCode check karein
     if (vendor.vendorCode !== null) {
-        console.log("Closed:", vendor.vendorCode);
+        // console.log("Closed:", vendor.vendorCode);
     }
 
     return (
