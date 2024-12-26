@@ -86,7 +86,7 @@
 
 import React from 'react';
 import { Tag } from 'antd';
-import { CheckCircleFilled } from '@ant-design/icons';
+import { CheckCircleFilled, CloseCircleOutlined } from '@ant-design/icons';
 import { FaEnvelopeCircleCheck } from "react-icons/fa6";
 import { BsClipboard2CheckFill } from "react-icons/bs";
 
@@ -94,7 +94,7 @@ const Status = ({ status, vendor }) => {
 
     // Debugging ke liye vendorCode check karein
     if (vendor.vendorCode !== null) {
-        // console.log("Closed:", vendor.vendorCode);
+        // console.log("status:", vendor);
     }
 
     return (
@@ -109,7 +109,9 @@ const Status = ({ status, vendor }) => {
                                 ? "blue"
                                 : status === "approved"
                                     ? "green"
-                                    : null
+                                    : status === "rejected"
+                                        ? "red"
+                                        : null
                 }
                 icon={
                     vendor.vendorCode !== null
@@ -120,7 +122,9 @@ const Status = ({ status, vendor }) => {
                                 ? <BsClipboard2CheckFill style={{ fontSize: '12px', marginBottom: '4px', marginRight: '4px' }} />
                                 : status === 'pending'
                                     ? <FaEnvelopeCircleCheck style={{ fontSize: '14px', marginBottom: '2px', marginRight: '4px' }} />
-                                    : null
+                                    : status === 'rejected'
+                                        ? <CloseCircleOutlined style={{ fontSize: '14px', marginBottom: '2px', marginRight: '4px' }} />
+                                        : null
                 }
                 style={{
                     color: vendor.vendorCode !== null ? "#D56A07" : status === 'approved' ? "#10b981" : "",
@@ -136,7 +140,9 @@ const Status = ({ status, vendor }) => {
                             ? "Submitted"
                             : status === 'approved'
                                 ? "Approved"
-                                : null
+                                : status === 'rejected'
+                                    ? "Rejected"
+                                    : null
                 }
             </Tag>
         </>

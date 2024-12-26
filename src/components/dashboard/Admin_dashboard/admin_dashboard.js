@@ -31,38 +31,6 @@ const columns = (onDelete, onDetail, onEdit, getColumnSearchProps) => [
         ...getColumnSearchProps('companyName', 'company name')
     },
     {
-        title: 'Email',
-        dataIndex: 'email',
-        key: 'email',
-        ...getColumnSearchProps('email', 'email')
-    },
-    {
-        title: 'Created At',
-        // dataIndex: 'createdAt',
-        key: 'createdAt',
-        render: (item, index) => {
-            return (
-                <>
-                    <span>{new Date(item.createdAt).toLocaleString('en-GB', { hour12: true }).toUpperCase()}</span>
-                </>
-            )
-        }
-
-    },
-    {
-        title: 'Updated At',
-        // dataIndex: 'createdAt',
-        key: 'updatedAt',
-        render: (item, index) => {
-            return (
-                <>
-                    <span>{new Date(item.updatedAt).toLocaleString('en-GB', { hour12: true }).toUpperCase()}</span>
-                </>
-            )
-        }
-
-    },
-    {
         title: 'Action',
         key: 'action',
         render: (text, record) => (
@@ -97,15 +65,60 @@ const columns = (onDelete, onDetail, onEdit, getColumnSearchProps) => [
         ),
     },
     {
-        title: "Approved By",
+        title: "Requested By",
         dataIndex: 'vendorApprovedBy',
         key: 'vendorApprovedBy',
         ...getColumnSearchProps('vendorApprovedBy', 'approved by')
     },
     {
+        title: "Approved By",
+        dataIndex: 'approvedByFinance',
+        key: 'approvedByFinance',
+        ...getColumnSearchProps('approvedByFinance', 'approved by finance')
+    },
+    {
+        title: "Remark",
+        dataIndex: 'remark',
+        key: 'remark',
+        ...getColumnSearchProps('remark', 'remark')
+    },
+    {
+        title: 'Email',
+        dataIndex: 'email',
+        key: 'email',
+        ...getColumnSearchProps('email', 'email')
+    },
+    {
+        title: 'Created At',
+        // dataIndex: 'createdAt',
+        key: 'createdAt',
+        render: (item, index) => {
+            return (
+                <>
+                    <span>{new Date(item.createdAt).toLocaleString('en-GB', { hour12: true }).toUpperCase()}</span>
+                </>
+            )
+        }
+
+    },
+    {
+        title: 'Updated At',
+        // dataIndex: 'createdAt',
+        key: 'updatedAt',
+        render: (item, index) => {
+            return (
+                <>
+                    <span>{new Date(item.updatedAt).toLocaleString('en-GB', { hour12: true }).toUpperCase()}</span>
+                </>
+            )
+        }
+
+    },
+    {
         title: 'Status',
         // dataIndex: 'status',
         key: 'status',
+        fixed:'right',
         render: (item, index) => {
             return (
                 <>
@@ -327,6 +340,9 @@ const Admin_Dashboard = () => {
                     target: 'sorter-icon',
                 }}
                 bordered
+                scroll={{
+                    x: 'max-content',
+                }}
                 loading={loading}
             />
         </>

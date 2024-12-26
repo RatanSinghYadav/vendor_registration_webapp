@@ -1,6 +1,6 @@
 import { Card, Row, Col, Divider, Button, Tag, Input, message, Spin, Tooltip } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { MailOutlined, MobileOutlined, PhoneOutlined, BankOutlined, EyeOutlined, CopyOutlined } from '@ant-design/icons';
+import { MailOutlined, MobileOutlined, PhoneOutlined, BankOutlined, EyeOutlined, CopyOutlined, CloseCircleOutlined, } from '@ant-design/icons';
 import { IoMdAttach } from "react-icons/io";
 import { useParams } from 'react-router-dom';
 import '../../../assets/styles/vendorDetail.css';
@@ -9,6 +9,8 @@ import { CheckCircleFilled } from '@ant-design/icons';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import { BiSolidPurchaseTag } from "react-icons/bi";
 import { FaLaptopCode } from "react-icons/fa";
+import { RiMoneyRupeeCircleFill } from "react-icons/ri";
+import { Switch } from 'antd';
 
 const VendorDetail = () => {
     const [vendor, setVendor] = useState([]);
@@ -22,9 +24,14 @@ const VendorDetail = () => {
     const [vendorCode, setVendorCode] = useState('');
     const [approvedByFinance, setApprovedByFinance] = useState('');
     const [remark, setRemark] = useState('');
+    const [tdsShow, setTdsShow] = useState(false);
+    const [vendorTDS, setVendorTDS] = useState('');
+    const [vendorRequestedPerson, setVendorRequestedPerson] = useState('');
+    const [vendorRequestedPersonNum, setVendorRequestedPersonNum] = useState('');
 
-    console.log(approvedByFinance, remark);
-    console.log(vendor);
+    // const handleTDS = () => {
+    //       setTdsShow(true);
+    // }
 
     const { id } = useParams('');
 
@@ -65,9 +72,13 @@ const VendorDetail = () => {
             setBankDetail(getData.vendor.approveBankDetail)
             setApprovedVendor(getData.vendor.vendorApproved);
             setApprovedBy(getData.vendor.vendorApprovedBy);
+            setVendorRequestedPerson(getData.vendor.vendorRequestedPerson);
+            setVendorRequestedPersonNum(getData.vendor.vendorRequestedPersonNum)
+
             setVendorCode(getData.vendor.vendorCode)
             setApprovedByFinance(getData.vendor.approvedByFinance);
             setRemark(getData.vendor.remark);
+
         } catch (error) {
             message.error("Error to get vendor data");
         } finally {
@@ -89,7 +100,9 @@ const VendorDetail = () => {
                     purchaseType: purchaseType,
                     purchaseCategory: purchaseCategory,
                     paymentTerms: paymentTerms,
-                    vendorApprovedBy: approvedBy
+                    vendorApprovedBy: approvedBy,
+                    vendorRequestedPerson: vendorRequestedPerson,
+                    vendorRequestedPersonNum: vendorRequestedPersonNum
                 })
             })
 
@@ -103,7 +116,6 @@ const VendorDetail = () => {
     }
 
     const updateVendorCode = async () => {
-        console.log(vendorCode);
         try {
             const res = await fetch(`${url}/api/vendor/updateVendorCode/${id}`, {
                 method: "PATCH",
@@ -143,7 +155,7 @@ const VendorDetail = () => {
     }
 
 
-    const vendorApprovedById = async () => {
+    const vendorApprovedByFinance = async () => {
         const res = await fetch(`${url}/api/vendor/purchase/approvedVendor/${id}`, {
             method: "POST",
             headers: {
@@ -152,12 +164,38 @@ const VendorDetail = () => {
             },
             body: JSON.stringify({
                 approvedByFinance: approvedByFinance,
+                vendorTDS: vendorTDS,
                 remark: remark
             })
         })
         const getRes = await res.json();
         setApprovedVendor(getRes.vendor.vendorApproved)
         message.success("Vendor Details Approved!");
+    }
+
+    const vendorRejectedByFinance = async () => {
+        try {
+            console.log("Remark:", remark)
+            console.log("vendorRejected:", approvedByFinance);
+
+            const res = await fetch(`${url}/api/vendor/rejectedVendor/${id}`, {
+                method: "PATCH",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'token': localStorage.getItem('token'),
+                },
+                body: JSON.stringify({
+                    approvedByFinance: approvedByFinance,
+                    remark: remark
+                })
+            })
+            const getRes = await res.json();
+            console.log(getRes.vendor);
+            message.success("Vendor Rejected!");
+        } catch (error) {
+            console.log("Error to vendor rejected.", error);
+            message.error("Error to vendor rejected.");
+        }
     }
 
 
@@ -676,8 +714,16 @@ const VendorDetail = () => {
                                 <Input value={paymentTerms} onChange={(e) => setPaymentTerms(e.target.value)} placeholder='Payment Terms' />
                             </Col>
                             <Col span={4}>
-                                <h6>Approved By</h6>
+                                <h6>Approved By Purchase</h6>
                                 <Input value={approvedBy} onChange={(e) => setApprovedBy(e.target.value)} placeholder='Name' />
+                            </Col>
+                            <Col span={4}>
+                                <h6>Requested By User-Dept.</h6>
+                                <Input value={vendorRequestedPerson} onChange={(e) => setVendorRequestedPerson(e.target.value)} placeholder='User-Department' />
+                            </Col>
+                            <Col span={4}>
+                                <h6>Contact Person</h6>
+                                <Input value={vendorRequestedPersonNum} onChange={(e) => setVendorRequestedPersonNum(e.target.value)} placeholder='Phone Number' />
                             </Col>
                             <div style={{ display: 'flex', alignItems: 'end', justifyContent: 'space-between' }}>
                                 <Col span={6}>
@@ -696,7 +742,7 @@ const VendorDetail = () => {
                     <Divider />
                     {/* Finance Department */}
 
-                    <Card title={<>Finance Department <FaLaptopCode /></>}>
+                    <Card title={<>Finance Department <RiMoneyRupeeCircleFill /></>}>
                         <Row gutter={[16, 16]}>
                             <Col span={4}>
                                 <h6>Approve By Finance Manager</h6>
@@ -704,14 +750,19 @@ const VendorDetail = () => {
                             </Col>
                             <Col span={4}>
                                 <h6>Remark</h6>
-                                <Input value={remark} onChange={(e) => setRemark(e.target.value)} placeholder='remark' />
+                                <Input value={remark} onChange={(e) => setRemark(e.target.value)} placeholder='Remark' />
+                            </Col>
+                            <Col span={4}>
+                                <h6>TDS/TCS <Switch onClick={(e) => setTdsShow((prev) => !prev)} size="small" checkedChildren="Yes" unCheckedChildren="No" defaultunChecked /></h6>
+
+                                {tdsShow ? <Input value = {vendorTDS} onChange={(e) => setVendorTDS(e.target.value)} placeholder='TDS/TCS' /> : <Input disabled />}
                             </Col>
                             <div style={{ display: 'flex', alignItems: 'end', justifyContent: 'space-between' }}>
                                 <Col span={6}>
                                     {
                                         approvedVendor === 'pending' ?
                                             <>
-                                                <Button onClick={vendorApprovedById}><CheckCircleFilled /> Vendor Approve</Button>
+                                                <Button onClick={vendorApprovedByFinance}><CheckCircleFilled /> Vendor Approve</Button>
                                             </>
                                             :
                                             <>
@@ -726,6 +777,22 @@ const VendorDetail = () => {
                                                 </Button>
                                             </>
                                     }
+                                </Col>
+                            </div>
+
+                            {/* vendor rejected */}
+                            <div style={{ display: 'flex', alignItems: 'end', justifyContent: 'space-between' }}>
+                                <Col span={6}>
+                                    <Button
+                                        onClick={vendorRejectedByFinance}
+                                        color='error' style={{
+                                            color: "#FE4C4E",
+                                            borderColor: "#FE4C4E",
+                                            backgroundColor: '#FEF3F0',
+                                        }}
+                                    >
+                                        <CloseCircleOutlined style={{ color: '#FE4C4E', border: '1px solid #FEF3F0' }} />Vendor Reject
+                                    </Button>
                                 </Col>
                             </div>
                         </Row>
