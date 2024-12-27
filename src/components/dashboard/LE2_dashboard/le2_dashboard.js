@@ -18,7 +18,7 @@ const columns = (onDelete, onDetail, onEdit) => [
     {
         title: 'Vendor Code',
         render: (text, record, index) => record.vendorCode === null ? "-" : record.vendorCode,
-        key: 'index',
+        key: 'vendorCode',
     },
     {
         title: 'Vendor Name',

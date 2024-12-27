@@ -11,6 +11,7 @@ import { BiSolidPurchaseTag } from "react-icons/bi";
 import { FaLaptopCode } from "react-icons/fa";
 import { RiMoneyRupeeCircleFill } from "react-icons/ri";
 import { Switch } from 'antd';
+import TextArea from 'antd/es/input/TextArea.js';
 
 const VendorDetail = () => {
     const [vendor, setVendor] = useState([]);
@@ -157,7 +158,7 @@ const VendorDetail = () => {
 
     const vendorApprovedByFinance = async () => {
         const res = await fetch(`${url}/api/vendor/purchase/approvedVendor/${id}`, {
-            method: "POST",
+            method: "PATCH",
             headers: {
                 "Content-Type": 'application/json',
                 'token': localStorage.getItem('token')
@@ -703,7 +704,7 @@ const VendorDetail = () => {
                         <Row gutter={[16, 16]}>
                             <Col span={4}>
                                 <h6>Purchase Type</h6>
-                                <Input value={purchaseType} onChange={(e) => setPurchaseType(e.target.value)} placeholder='Purchase Type' />
+                                <TextArea value={purchaseType} onChange={(e) => setPurchaseType(e.target.value)} placeholder='Purchase Type' />
                             </Col>
                             <Col span={4}>
                                 <h6>Purchase Category</h6>
@@ -750,39 +751,40 @@ const VendorDetail = () => {
                             </Col>
                             <Col span={4}>
                                 <h6>Remark</h6>
-                                <Input value={remark} onChange={(e) => setRemark(e.target.value)} placeholder='Remark' />
+                                <TextArea value={remark} onChange={(e) => setRemark(e.target.value)} placeholder='Remark' />
                             </Col>
                             <Col span={4}>
-                                <h6>TDS/TCS <Switch onClick={(e) => setTdsShow((prev) => !prev)} size="small" checkedChildren="Yes" unCheckedChildren="No" defaultunChecked /></h6>
+                                <h6>TDS/TCS <Switch onClick={(e) => setTdsShow((prev) => !prev)} size="small" checkedChildren="Yes" unCheckedChildren="No" /></h6>
 
-                                {tdsShow ? <Input value = {vendorTDS} onChange={(e) => setVendorTDS(e.target.value)} placeholder='TDS/TCS' /> : <Input disabled />}
+                                {tdsShow ? <Input value={vendorTDS} onChange={(e) => setVendorTDS(e.target.value)} placeholder='TDS/TCS Description Group Code' /> : <Input disabled />}
                             </Col>
-                            <div style={{ display: 'flex', alignItems: 'end', justifyContent: 'space-between' }}>
-                                <Col span={6}>
-                                    {
-                                        approvedVendor === 'pending' ?
-                                            <>
-                                                <Button onClick={vendorApprovedByFinance}><CheckCircleFilled /> Vendor Approve</Button>
-                                            </>
-                                            :
-                                            <>
-                                                <Button
-                                                    color='success' style={{
-                                                        color: "#10b981",
-                                                        borderColor: "#10b981",
-                                                        backgroundColor: '#ecfdf5',
-                                                    }}
-                                                >
-                                                    <CheckCircleFilled style={{ color: '#10b981', border: '1px solid white' }} />Vendor Approved
-                                                </Button>
-                                            </>
-                                    }
-                                </Col>
-                            </div>
+                            <Col span={4}>
+                            <br/>
+                                {
+                                    vendor.status === 'complete' || vendor.status === 'rejected' || vendor.status === 'pending' ?
+                                        <>
+                                            <Button onClick={vendorApprovedByFinance}><CheckCircleFilled /> Vendor Approve</Button>
+                                        </>
+                                        :
+                                        <>
+                                            <Button
+                                                color='success' style={{
+                                                    color: "#10b981",
+                                                    borderColor: "#10b981",
+                                                    backgroundColor: '#ecfdf5',
+                                                }}
+                                            >
+                                                <CheckCircleFilled style={{ color: '#10b981', border: '1px solid white' }} />Vendor Approved
+                                            </Button>
+                                        </>
+                                }
+                            </Col>
+                            {/* <div style={{ display: 'flex', alignItems: 'end', justifyContent: 'space-between' }}>
+                            </div> */}
 
                             {/* vendor rejected */}
-                            <div style={{ display: 'flex', alignItems: 'end', justifyContent: 'space-between' }}>
-                                <Col span={6}>
+                                <Col span={4}>
+                                <br/>
                                     <Button
                                         onClick={vendorRejectedByFinance}
                                         color='error' style={{
@@ -794,7 +796,8 @@ const VendorDetail = () => {
                                         <CloseCircleOutlined style={{ color: '#FE4C4E', border: '1px solid #FEF3F0' }} />Vendor Reject
                                     </Button>
                                 </Col>
-                            </div>
+                            {/* <div style={{ display: 'flex', alignItems: 'end', justifyContent: 'space-between' }}>
+                            </div> */}
                         </Row>
                     </Card>
 
