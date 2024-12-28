@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../../../assets/styles/sendInvite.css';
-import { Button, Flex, Space, Table, Tag, message, Input } from "antd";
+import { Button, Flex, Space, Table, Tag, message, Input, Tooltip } from "antd";
 import SendInvite from '../Admin_dashboard/sendInvite';
 import { SearchOutlined } from '@ant-design/icons';
 import '../../../App.css';
@@ -36,6 +36,12 @@ const columns = (onDelete, onDetail, onEdit, getColumnSearchProps) => [
         ...getColumnSearchProps('companyName', 'company name')
     },
     {
+        title: 'Email',
+        dataIndex: 'email',
+        key: 'email',
+        ...getColumnSearchProps('email', 'email')
+    },
+    {
         title: "Requested By",
         render: (text, record) => getDisplayValue(record.vendorApprovedBy),
         dataIndex: 'vendorApprovedBy',
@@ -62,27 +68,36 @@ const columns = (onDelete, onDetail, onEdit, getColumnSearchProps) => [
         render: (text, record) => (
             <>
                 <Space>
-                    <Tag onClick={() => onDetail(record._id)} color='blue' style={{ cursor: 'pointer' }}> <FileTextOutlined style={{ fontSize: '12px', marginBottom: '4px', marginRight: '4px' }} /> Detail</Tag>
+                    <Tooltip title="Detail">
+                        <Tag onClick={() => onDetail(record._id)} color='blue' style={{ cursor: 'pointer' }}> <FileTextOutlined style={{ fontSize: '12px', marginBottom: '4px', marginRight: '4px' }} /></Tag>
+                    </Tooltip>
                     {record.vendorCode === null ?
                         <>
-                            <Tag onClick={() => onEdit(record._id)} style={{ cursor: 'pointer' }} color='purple'><EditOutlined /> Edit</Tag>
+                        <Tooltip title="Edit">
+                            <Tag onClick={() => onEdit(record._id)} style={{ cursor: 'pointer' }} color='purple'><EditOutlined /></Tag>
+                        </Tooltip>
                         </>
                         :
                         <>
-                            <Tag style={{ cursor: 'pointer' }} color='default'><EditOutlined /> Edit</Tag>
+                        <Tooltip title="Edit">
+                            <Tag style={{ cursor: 'pointer' }} color='default'><EditOutlined /></Tag>
+                        </Tooltip>
                         </>
 
                     }
                     {/* <Tag style={{ cursor: 'pointer' }} color='cyan'><ExportInExcel id={record._id} /></Tag> */}
                     {record.status === "approved" ?
                         <>
-                            <Tag color='default' style={{ cursor: 'pointer' }}><DeleteOutlined style={{ fontSize: '12px', marginBottom: '4px', marginRight: '4px' }} /> Delete</Tag>
+                            <Tooltip title="Delete">
+                                <Tag color='default' style={{ cursor: 'pointer' }}><DeleteOutlined style={{ fontSize: '12px', marginBottom: '4px', marginRight: '4px' }} /></Tag>
+                            </Tooltip>
 
                         </>
                         :
                         <>
-
-                            <Tag onClick={() => onDelete(record._id)} color='red' style={{ cursor: 'pointer' }}><DeleteOutlined style={{ fontSize: '12px', marginBottom: '4px', marginRight: '4px' }} /> Delete</Tag>
+                            <Tooltip title="Delete">
+                                <Tag onClick={() => onDelete(record._id)} color='red' style={{ cursor: 'pointer' }}><DeleteOutlined style={{ fontSize: '12px', marginBottom: '4px', marginRight: '4px' }} /></Tag>
+                            </Tooltip>
                         </>
                     }
                 </Space>
@@ -90,12 +105,7 @@ const columns = (onDelete, onDetail, onEdit, getColumnSearchProps) => [
 
         ),
     },
-    {
-        title: 'Email',
-        dataIndex: 'email',
-        key: 'email',
-        ...getColumnSearchProps('email', 'email')
-    },
+
     {
         title: 'Created At',
         // dataIndex: 'createdAt',
@@ -126,7 +136,7 @@ const columns = (onDelete, onDetail, onEdit, getColumnSearchProps) => [
         title: 'Status',
         // dataIndex: 'status',
         key: 'status',
-        fixed:'right',
+        fixed: 'right',
         render: (item, index) => {
             return (
                 <>
@@ -146,6 +156,10 @@ const columns = (onDelete, onDetail, onEdit, getColumnSearchProps) => [
             {
                 text: "Approved",
                 value: "approved"
+            },
+            {
+                text: "Rejected",
+                value: "rejected"
             }
         ],
         onFilter: (value, record) => record.status === value,

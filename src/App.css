@@ -19,3 +19,9 @@ body::-webkit-scrollbar-thumb {
     background-color: #555;
     /* Color when hovered */
 }
+
+.ant-table-wrapper .ant-table .ant-table-container .ant-table-content {
+    overflow-x: auto; /* Ensure horizontal scroll is enabled */
+    scrollbar-width: thin; /* For Firefox */
+    scrollbar-color: rgb(203,212,224) #f1f1f1; /* For Firefox */
+}

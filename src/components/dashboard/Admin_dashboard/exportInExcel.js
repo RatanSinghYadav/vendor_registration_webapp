@@ -3,6 +3,7 @@ import { FileExcelOutlined } from '@ant-design/icons';
 import * as XLSX from 'xlsx';
 import { Link } from 'react-router-dom';
 import { url } from '../../../utils/constent';
+import { Tooltip } from 'antd';
 
 const ExportInExcel = ({ id }) => {
     const [vendor, setVendor] = useState([]);
@@ -255,7 +256,6 @@ const ExportInExcel = ({ id }) => {
                 style={{ textDecoration: 'none', color: '#08979C', fontWeight: '600' }}
             >
                 <FileExcelOutlined style={{ fontSize: '12px', marginBottom: '4px', marginRight: '4px' }} />
-                Excel
             </Link>
         </>
     );
