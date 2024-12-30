@@ -3,6 +3,7 @@ import '../../../assets/styles/sendInvite.css';
 import { Button, Flex, Input, Space, Table, Tag, message, Tooltip } from "antd";
 import SendInvite from '../Admin_dashboard/sendInvite';
 import { SearchOutlined } from '@ant-design/icons';
+import Highlighter from 'react-highlight-words';
 import '../../../App.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import Status from '../Admin_dashboard/status.js';
