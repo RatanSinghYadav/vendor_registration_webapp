@@ -145,7 +145,7 @@ const Sidebar = () => {
         },
         {
             key: 'logout',
-            icon: <UploadOutlined />,
+            icon: <UploadOutlined onClick={handleLogout}/>,
             label: (
                 <Button
                     type="text"
