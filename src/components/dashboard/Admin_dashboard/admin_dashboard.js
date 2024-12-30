@@ -153,6 +153,10 @@ const columns = (onDelete, onDetail, onEdit, getColumnSearchProps) => [
                 value: "pending"
             },
             {
+                text: "Filled",
+                value: "filled"
+            },
+            {
                 text: "Submitted",
                 value: "complete"
             },
@@ -163,7 +167,7 @@ const columns = (onDelete, onDetail, onEdit, getColumnSearchProps) => [
             {
                 text: "Rejected",
                 value: "rejected"
-            }
+            },
         ],
         onFilter: (value, record) => record.status === value,
     },
