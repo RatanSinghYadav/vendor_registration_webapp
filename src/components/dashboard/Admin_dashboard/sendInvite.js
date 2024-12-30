@@ -73,7 +73,7 @@ const SendInvite = ({ onInviteSend }) => {
         <div className="">
             <Row className="custome_invite_box_0001A">
                 <div style={{ display: 'flex', gap: '10px', cursor: 'pointer', alignItems: 'center' }}>
-                    <Search placeholder="input search text" style={{ width: 200 }} />
+                    {/* <Search placeholder="input search text" style={{ width: 200 }} /> */}
                     <span onClick={handleRefresh} style={{ fontSize: '14px', fontWeight: '600' }}>
                         <LuRefreshCw /> Refresh
                     </span>

@@ -87,6 +87,7 @@
 import React from 'react';
 import { Tag } from 'antd';
 import { CheckCircleFilled, CloseCircleOutlined } from '@ant-design/icons';
+import { SiGoogleforms } from "react-icons/si";
 import { FaEnvelopeCircleCheck } from "react-icons/fa6";
 import { BsClipboard2CheckFill } from "react-icons/bs";
 
@@ -111,7 +112,9 @@ const Status = ({ status, vendor }) => {
                                     ? "green"
                                     : status === "rejected"
                                         ? "red"
-                                        : null
+                                        : status === "filled"
+                                            ? "cyan"
+                                            : null
                 }
                 icon={
                     vendor.vendorCode !== null
@@ -124,7 +127,10 @@ const Status = ({ status, vendor }) => {
                                     ? <FaEnvelopeCircleCheck style={{ fontSize: '14px', marginBottom: '2px', marginRight: '4px' }} />
                                     : status === 'rejected'
                                         ? <CloseCircleOutlined style={{ fontSize: '14px', marginBottom: '2px', marginRight: '4px' }} />
-                                        : null
+                                        : status === 'filled'
+                                            ? <SiGoogleforms style={{ fontSize: '14px', marginBottom: '3px', marginRight: '4px' }} />
+                                            : null
+
                 }
                 style={{
                     color: vendor.vendorCode !== null ? "#D56A07" : status === 'approved' ? "#10b981" : "",
@@ -142,7 +148,9 @@ const Status = ({ status, vendor }) => {
                                 ? "Approved"
                                 : status === 'rejected'
                                     ? "Rejected"
-                                    : null
+                                    : status === "filled"
+                                        ? "Filled"
+                                        : null
                 }
             </Tag>
         </>

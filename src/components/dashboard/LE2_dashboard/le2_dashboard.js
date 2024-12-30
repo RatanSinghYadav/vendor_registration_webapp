@@ -112,13 +112,21 @@ const columns = (onDelete, onDetail, onEdit) => [
                 value: "pending"
             },
             {
+                text: "Filled",
+                value: "filled"
+            },
+            {
                 text: "Submitted",
                 value: "complete"
             },
             {
                 text: "Approved",
                 value: "approved"
-            }
+            },
+            {
+                text: "Rejected",
+                value: "rejected"
+            },
         ],
         onFilter: (value, record) => record.status === value,
     },
