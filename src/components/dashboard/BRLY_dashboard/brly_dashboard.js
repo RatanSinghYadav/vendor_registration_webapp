@@ -73,15 +73,15 @@ const columns = (onDelete, onDetail, onEdit, getColumnSearchProps) => [
                     </Tooltip>
                     {record.vendorCode === null ?
                         <>
-                        <Tooltip title="Edit">
-                            <Tag onClick={() => onEdit(record._id)} style={{ cursor: 'pointer' }} color='purple'><EditOutlined /></Tag>
-                        </Tooltip>
+                            <Tooltip title="Edit">
+                                <Tag onClick={() => onEdit(record._id)} style={{ cursor: 'pointer' }} color='purple'><EditOutlined /></Tag>
+                            </Tooltip>
                         </>
                         :
                         <>
-                        <Tooltip title="Edit">
-                            <Tag style={{ cursor: 'pointer' }} color='default'><EditOutlined /></Tag>
-                        </Tooltip>
+                            <Tooltip title="Edit">
+                                <Tag style={{ cursor: 'pointer' }} color='default'><EditOutlined /></Tag>
+                            </Tooltip>
                         </>
 
                     }
@@ -150,6 +150,10 @@ const columns = (onDelete, onDetail, onEdit, getColumnSearchProps) => [
                 value: "pending"
             },
             {
+                text: "Filled",
+                value: "filled"
+            },
+            {
                 text: "Submitted",
                 value: "complete"
             },
@@ -160,7 +164,7 @@ const columns = (onDelete, onDetail, onEdit, getColumnSearchProps) => [
             {
                 text: "Rejected",
                 value: "rejected"
-            }
+            },
         ],
         onFilter: (value, record) => record.status === value,
     }
