@@ -4,7 +4,7 @@ import { Button, Flex, Space, Table, Tag, message, Input, Tooltip } from "antd";
 import SendInvite from '../Admin_dashboard/sendInvite';
 import { SearchOutlined } from '@ant-design/icons';
 import '../../../App.css';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import Highlighter from 'react-highlight-words';
 import Status from '../Admin_dashboard/status.js';
 import { FileTextOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
