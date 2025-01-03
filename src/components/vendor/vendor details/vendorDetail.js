@@ -761,7 +761,7 @@ const VendorDetail = () => {
                             <Col span={4}>
                             <br/>
                                 {
-                                    vendor.status === 'complete' || vendor.status === 'rejected' || vendor.status === 'pending' ?
+                                    vendor.status === 'filled' || vendor.status === 'rejected' || vendor.status === 'pending' ?
                                         <>
                                             <Button onClick={vendorApprovedByFinance}><CheckCircleFilled /> Vendor Approve</Button>
                                         </>

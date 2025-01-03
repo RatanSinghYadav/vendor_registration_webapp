@@ -4,13 +4,14 @@ import { Button, Flex, Space, Table, Tag, message, Input, Tooltip } from "antd";
 import SendInvite from '../Admin_dashboard/sendInvite';
 import { SearchOutlined } from '@ant-design/icons';
 import '../../../App.css';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import Highlighter from 'react-highlight-words';
 import Status from '../Admin_dashboard/status.js';
 import { FileTextOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import ExportInExcel from './exportInExcel.js';
 import { url } from '../../../utils/constent.js';
 import { useSelector } from 'react-redux';
+import { FaLink } from "react-icons/fa";
 
 const getDisplayValue = (value) => value ? value : "-";
 
@@ -100,6 +101,22 @@ const columns = (onDelete, onDetail, onEdit, getColumnSearchProps) => [
                             </Tooltip>
                         </>
                     }
+                    <Tooltip title="Link">
+                        {
+                            record.status === "filled" || record.status === 'rejected' || record.status === 'complete' || record.status === 'approved' ?
+                                <>
+                                    <Tag color='default' style={{ cursor: 'pointer' }}><FaLink style={{ fontSize: '12px', marginBottom: '4px', marginRight: '4px' }} /></Tag>
+                                </>
+                                :
+                                <>
+                                    <Link to={`/vendor/form/fill/${record._id}`}>
+                                        <Tag color='red' style={{ cursor: 'pointer' }}>
+                                            <FaLink style={{ fontSize: '12px', marginBottom: '4px', marginRight: '4px' }} />
+                                        </Tag>
+                                    </Link>
+                                </>
+                        }
+                    </Tooltip>
                 </Space>
             </>
 

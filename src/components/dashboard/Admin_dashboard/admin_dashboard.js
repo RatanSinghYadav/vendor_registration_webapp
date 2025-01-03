@@ -4,13 +4,14 @@ import { Button, Flex, Space, Table, Tag, message, Input, Popconfirm, Tooltip } 
 import { SearchOutlined } from '@ant-design/icons';
 import SendInvite from './sendInvite';
 import '../../../App.css';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import Status from './status';
 import Highlighter from 'react-highlight-words';
 import { FileTextOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import ExportInExcel from './exportInExcel';
 import { url } from '../../../utils/constent';
 import '../../../assets/styles/customTable.css';
+import { FaLink } from "react-icons/fa";
 
 
 // Reusable function to handle null or undefined fields
@@ -102,8 +103,25 @@ const columns = (onDelete, onDetail, onEdit, getColumnSearchProps) => [
                                     <Tag color='red' style={{ cursor: 'pointer' }}><DeleteOutlined style={{ fontSize: '12px', marginBottom: '4px', marginRight: '4px' }} /></Tag>
                                 </Popconfirm>
                             </Tooltip>
+
                         </>
                     }
+                    <Tooltip title="Link">
+                        {
+                            record.status === "filled" || record.status === 'rejected' || record.status === 'complete' || record.status === 'approved' ?
+                                <>
+                                    <Tag color='default' style={{ cursor: 'pointer' }}><FaLink style={{ fontSize: '12px', marginBottom: '4px', marginRight: '4px' }} /></Tag>
+                                </>
+                                :
+                                <>
+                                    <Link to={`/vendor/form/fill/${record._id}`}>
+                                        <Tag color='red' style={{ cursor: 'pointer' }}>
+                                            <FaLink style={{ fontSize: '12px', marginBottom: '4px', marginRight: '4px' }} />
+                                        </Tag>
+                                    </Link>
+                                </>
+                        }
+                    </Tooltip>
                 </Space>
             </>
 
