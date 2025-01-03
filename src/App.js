@@ -61,7 +61,7 @@ const App = () => {
         )}
 
         {/* form route */}
-        <Route path='/vendor/form/' element={<Layout />}>
+        <Route path='/vendor/form/fill/:id' element={<Layout />}>
           <Route index exact element={<VendorForm />} />
         </Route>
         {/* profile route */}
