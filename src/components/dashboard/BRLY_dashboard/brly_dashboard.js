@@ -100,6 +100,22 @@ const columns = (onDelete, onDetail, onEdit, getColumnSearchProps) => [
                             </Tooltip>
                         </>
                     }
+                    <Tooltip title="Link">
+                        {
+                            record.status === "filled" || record.status === 'rejected' || record.status === 'complete' || record.status === 'approved' ?
+                                <>
+                                    <Tag color='default' style={{ cursor: 'pointer' }}><FaLink style={{ fontSize: '12px', marginBottom: '4px', marginRight: '4px' }} /></Tag>
+                                </>
+                                :
+                                <>
+                                    <Link to={`/vendor/form/fill/${record._id}`}>
+                                        <Tag color='red' style={{ cursor: 'pointer' }}>
+                                            <FaLink style={{ fontSize: '12px', marginBottom: '4px', marginRight: '4px' }} />
+                                        </Tag>
+                                    </Link>
+                                </>
+                        }
+                    </Tooltip>
                 </Space>
             </>
 
