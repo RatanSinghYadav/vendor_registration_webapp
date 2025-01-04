@@ -17,6 +17,7 @@ import { GrUserPolice } from "react-icons/gr";
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../redux_toolkit/authSlice.js';
 import { url } from '../../utils/constent.js';
+import DateAndTime from '../../utils/dateAndTime.js';
 const { Title, Text } = Typography;
 const { Header, Sider, Content } = Layout;
 
@@ -129,9 +130,9 @@ const Sidebar = () => {
     // Add common items for all roles
     menuItems.push(
         {
-            key: '/vendor/form',
+            key: '/vendor/form/fill/:id',
             icon: <ShopOutlined />,
-            label: <Link to="/vendor/form" style={{ textDecoration: 'none' }}>Vendor Form</Link>,
+            label: <Link to="/vendor/form/fill/:id" style={{ textDecoration: 'none' }}>Vendor Form</Link>,
         },
         {
             key: '/vendor/details',
@@ -145,7 +146,7 @@ const Sidebar = () => {
         },
         {
             key: 'logout',
-            icon: <UploadOutlined onClick={handleLogout}/>,
+            icon: <UploadOutlined onClick={handleLogout} />,
             label: (
                 <Button
                     type="text"
@@ -206,6 +207,9 @@ const Sidebar = () => {
                         }
                     </span>
                     <Space>
+                        <span>
+                            <DateAndTime />
+                        </span>
                         <Avatar size={40} style={{ backgroundColor: '#87d068', }}>{localStorage.getItem('username')[0]}</Avatar>
                         <div>
                             <Title level={5} style={{ margin: "20px 20px -25px 0px" }}>{localStorage.getItem('username')}</Title>
