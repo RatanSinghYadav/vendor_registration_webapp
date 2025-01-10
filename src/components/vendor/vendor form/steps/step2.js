@@ -7,7 +7,31 @@ const options = [
     { value: 'Public Sector', label: 'Public Sector' },
 ];
 
-const Step2 = ({ form }) => {
+const Step2 = ({ form, vendorDetail }) => {
+
+    useEffect(() => { 
+        if (vendorDetail && Object.keys(vendorDetail).length > 0) {
+            form.setFieldsValue({
+                incorporationCertificate: vendorDetail.incorporationCertificate,
+                registeredMSME: vendorDetail.registeredMSME,
+                pan: vendorDetail.pan,
+                businessAddressProof: vendorDetail.businessAddressProof,
+                bankAccountDetails: vendorDetail.bankAccountDetails,
+                gstCertificate: vendorDetail.gstCertificate,
+                bankName: vendorDetail.bankName,
+                accountName: vendorDetail.accountName,
+                accountNumber: vendorDetail.accountNumber,
+                confirmAccountNumber: vendorDetail.confirmAccountNumber,
+                bankIFSC: vendorDetail.bankIFSC,
+                firmType: vendorDetail.firmType,
+                sisterConcernDetails: vendorDetail.sisterConcernDetails,
+                otherUnitsDetails: vendorDetail.otherUnitsDetails,
+                transactionWithOtherUnits: vendorDetail.transactionWithOtherUnits,
+            });
+        }
+    }, [vendorDetail, form]);
+
+
     return (
         <>
             <div>

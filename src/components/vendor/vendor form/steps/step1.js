@@ -1,10 +1,41 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Checkbox, Col, Divider, Flex, Form, Input, Row } from "antd";
 
-const Step1 = ({form}) => {
+const Step1 = ({ form, vendorDetail }) => {
     // const [form] = Form.useForm(); // Create a form instance
     const [isSameAsAbove, setIsSameAsAbove] = useState(false); // Track the checkbox state
     // console.log(isSameAsAbove);
+
+    useEffect(() => { 
+        if (vendorDetail && Object.keys(vendorDetail).length > 0) {
+            form.setFieldsValue({
+                companyName: vendorDetail.companyName,
+                proprietorName: vendorDetail.proprietorName,
+                businessNature: vendorDetail.businessNature,
+                turnoverInLakhs: vendorDetail.turnoverInLakhs,
+                yearsInBusiness: vendorDetail.yearsInBusiness,
+                workspaceArea: vendorDetail.workspaceArea,
+                companyAddress: vendorDetail.companyAddress,
+                companyTelephone: vendorDetail.companyTelephone,
+                companyMobile: vendorDetail.companyMobile,
+                companyPersonEmail: vendorDetail.companyPersonEmail,
+                companyEmail: vendorDetail.companyEmail,
+                companyCountry: vendorDetail.companyCountry,
+                companyState: vendorDetail.companyState,
+                companyCity: vendorDetail.companyCity,
+                companyPin: vendorDetail.companyPin,
+                branchAddress: vendorDetail.branchAddress,
+                branchTelephone: vendorDetail.branchTelephone,
+                branchMobile: vendorDetail.branchMobile,
+                branchPersonEmail: vendorDetail.branchPersonEmail,
+                branchEmail: vendorDetail.branchEmail,
+                branchCountry: vendorDetail.branchCountry,
+                branchState: vendorDetail.branchState,
+                branchCity: vendorDetail.branchCity,
+                branchPin: vendorDetail.branchPin,
+            });
+        }
+    }, [vendorDetail, form]);
 
     // Function to copy company address to local representative address
     const sameAsAbove = (e) => {
@@ -53,7 +84,7 @@ const Step1 = ({form}) => {
                             label="1. Name of the Company"
                             rules={[{ required: true, message: "Company name required!" }]}
                         >
-                            <Input placeholder="First Name" />
+                            <Input value={vendorDetail.companyName} placeholder="First Name" />
                         </Form.Item>
                         <Form.Item
                             name="proprietorName"
