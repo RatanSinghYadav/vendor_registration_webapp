@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Steps, theme, Button, message, Form } from "antd";
 import Step1 from "./steps/step1";
 import Step2 from "./steps/step2";
@@ -13,17 +13,40 @@ const VendorStepForm = () => {
     const [form] = Form.useForm();
     const [formData, setFormData] = useState({}); // State to store form data for all steps
     const [loading, setLoading] = useState(false);
+    const [vendorDetail, setVendorDetail] = useState([]);
+
+
 
     const { id } = useParams();
+
+    // fetch vendors data
+
+    const fetchVendorDetails = async () => {
+        try {
+            const res = await fetch(`${url}/api/vendor/details/${id}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            if (!res.ok) {
+                throw new Error('Failed to fetch vendor data');
+            }
+            const getData = await res.json();
+            setVendorDetail(getData.vendor);
+        } catch (error) {
+            console.log("Error to get vendor data", error);
+        }
+    }
 
     const steps = [
         {
             title: "Company Profile",
-            content: <Step1 form={form} />,
+            content: <Step1 vendorDetail={vendorDetail} form={form} />,
         },
         {
             title: "GST & Bank Detail",
-            content: <Step2 form={form} />,
+            content: <Step2 vendorDetail={vendorDetail} form={form} />,
         },
         // {
         //     title: "GST & Bank Detail",
@@ -31,7 +54,7 @@ const VendorStepForm = () => {
         // },
         {
             title: "Document Upload",
-            content: <Step4 form={form} />,
+            content: <Step4 vendorDetail={vendorDetail} form={form} />,
         },
     ];
 
@@ -113,6 +136,10 @@ const VendorStepForm = () => {
     };
 
     const items = steps.map((item) => ({ key: item.title, title: item.title }));
+
+    useEffect(() => {
+        fetchVendorDetails();
+    }, [])
 
     return (
         <>
