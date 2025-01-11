@@ -70,7 +70,7 @@ const Step4 = ({ form }) => {
                         name='bankAccountCancelChequeFile'
                         valuePropName="fileList"
                         getValueFromEvent={normFile}
-                        rules={[{ required: true, message: 'Incorporation Certificate required!' }]}
+                        rules={[{ required: true, message: 'Bank Account Cancel Cheque required!' }]}
                     >
                         <Upload
 
@@ -97,7 +97,7 @@ const Step4 = ({ form }) => {
                         name="gstRegistrationCertificateFile"
                         valuePropName="fileList"
                         getValueFromEvent={normFile}
-                        rules={[{ required: true, message: 'Incorporation Certificate required!' }]}
+                        rules={[{ required: true, message: 'GST Registration Certificate required!' }]}
                     >
                         <Upload
 
@@ -178,7 +178,7 @@ const Step4 = ({ form }) => {
                         name="panFile"
                         valuePropName="fileList"
                         getValueFromEvent={normFile}
-                        rules={[{ required: true, message: 'Incorporation Certificate required!' }]}
+                        rules={[{ required: true, message: 'PAN Document required!' }]}
                     >
                         <Upload
 
