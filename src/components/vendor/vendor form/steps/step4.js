@@ -97,7 +97,7 @@ const Step4 = ({ form }) => {
                         name="gstRegistrationCertificateFile"
                         valuePropName="fileList"
                         getValueFromEvent={normFile}
-                        rules={[{ required: true, message: 'GST Registration Certificate required!' }]}
+                        rules={[{ required: true, message: 'GST Registration Certificate required!'  }]}
                     >
                         <Upload
 
