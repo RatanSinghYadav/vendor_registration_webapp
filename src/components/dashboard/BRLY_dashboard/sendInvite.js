@@ -41,7 +41,7 @@ const SendInvite = ({ onInviteSend }) => {
                 },
                 body: JSON.stringify({
                     name: vendorName,
-                    // email: vendorEmail,
+                    email: vendorEmail,
                     vendorType: localStorage.getItem('usertype')
                 })
             });
