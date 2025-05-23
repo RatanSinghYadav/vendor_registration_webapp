@@ -66,7 +66,7 @@ const VendorDetail = () => {
             }
             const getData = await res.json();
             // console.log(getData.vendor.approveBankDetail)
-            setVendor(getData.vendor);
+            // setVendor(getData.vendor);
             setPurchaseType(getData.vendor.purchaseType);
             setPurchaseCategory(getData.vendor.purchaseCategory);
             setPaymentTerms(getData.vendor.paymentTerms);
