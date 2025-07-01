@@ -28,11 +28,8 @@ const Login = () => {
             });
             const data = await res.json();
 
-            console.log(data.userlogin);
-
-            const role = data.userlogin.role;
-
-            if (res.ok) {
+            if (res.ok && data.userlogin) {
+                const role = data.userlogin.role;
                 message.success("Login successful!");
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('usertype', data.userlogin.role);
@@ -53,9 +50,8 @@ const Login = () => {
                 } else if (role === 'BRLY') {
                     navigate('/brly-dashboard');
                 }
-
             } else {
-                message.error("Login failed. Please check your credentials.");
+                message.error(data.message || "Login failed. Please check your credentials.");
             }
 
         } catch (error) {

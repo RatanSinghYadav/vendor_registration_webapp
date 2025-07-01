@@ -127,6 +127,16 @@ const Sidebar = () => {
         );
     }
 
+    if (role === 'SuperAdmin') {
+        menuItems.push(
+            {
+                key: '/super-admin',
+                icon: <GrUserPolice />,
+                label: <Link to="/super-admin" style={{ textDecoration: 'none' }}>Super Admin</Link>,
+            }
+        );
+    }
+
     // Add common items for all roles
     menuItems.push(
         {

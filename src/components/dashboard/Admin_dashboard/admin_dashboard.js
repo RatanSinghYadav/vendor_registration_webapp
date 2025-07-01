@@ -13,7 +13,6 @@ import { url } from '../../../utils/constent';
 import '../../../assets/styles/customTable.css';
 import { FaLink } from "react-icons/fa";
 
-
 // Reusable function to handle null or undefined fields
 const getDisplayValue = (value) => value ? value : "-";
 
