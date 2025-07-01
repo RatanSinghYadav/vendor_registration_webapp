@@ -10,6 +10,7 @@ import Signup from './components/auth/signup.js';
 import LE2_Dashboard from './components/dashboard/LE2_dashboard/le2_dashboard.js';
 import BRLY_Dashboard from './components/dashboard/BRLY_dashboard/brly_dashboard.js';
 import Admin_Dashboard from './components/dashboard/Admin_dashboard/admin_dashboard.js';
+import UserManagement from './components/dashboard/Admin_dashboard/user_management.js';
 import { useSelector } from 'react-redux';
 
 
@@ -60,6 +61,13 @@ const App = () => {
           </Route>
         )}
 
+        {/* Super Admin Route */}
+        {role === 'Admin' && (
+          <Route path='/super-admin' element={<Layout />}>
+            <Route index exact element={<UserManagement />} />
+          </Route>
+        )}
+
         {/* form route */}
         <Route path='/vendor/form/fill/:id' element={<Layout />}>
           <Route index exact element={<VendorForm />} />
@@ -88,4 +96,3 @@ export default App;
 
 
 
- 
